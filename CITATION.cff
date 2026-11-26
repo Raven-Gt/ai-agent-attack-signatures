@@ -1,4 +1,4 @@
-cff-version: 1.2.0
+﻿cff-version: 1.2.0
 message: "If you use these signatures or the methodology, please cite this work."
 title: "ai-agent-attack-signatures: Traffic Signatures and Detection Methodology for AI-Powered Penetration-Testing Agents"
 abstract: >-
@@ -10,7 +10,7 @@ abstract: >-
   attribution provably fails.
 type: software
 license: MIT
-repository-code: "https://github.com/<owner>/ai-agent-attack-signatures"
+repository-code: "https://github.com/Raven-Gt/ai-agent-attack-signatures"
 keywords:
   - security
   - ai-agents
