@@ -1,0 +1,38 @@
+{
+ "actor_id": "scanner-06",
+ "label": "scanner_hard_negative",
+ "scanner_source_address": "172.34.0.15",
+ "scanner_source_address_note": "Address of a dedicated scanner container on the evaluation environment's private container network; not an Internet source address.",
+ "tool_signature_histogram": {
+  "ffuf": 65,
+  "generic-browser": 4
+ },
+ "records_published": 69,
+ "records_with_non_ascii_normalised": 0,
+ "non_ascii_bytes_normalised": 0,
+ "status_class_histogram": {
+  "2xx": 5,
+  "3xx": 3,
+  "4xx": 61
+ },
+ "time_window": {
+  "start": "2026-11-26T05:50:57+00:00",
+  "end": "2026-11-26T05:50:58+00:00",
+  "duration_s": 1.0
+ },
+ "actor_class": "browser",
+ "ai_score": 0.54228736,
+ "decision_threshold": 0.35,
+ "verdict": "ai_suspect",
+ "detected_at_threshold": true,
+ "fired_rules": [
+  "E5",
+  "E6",
+  "E7",
+  "E11",
+  "E12"
+ ],
+ "score_source_artifact": "evaluation JSON: negative evaluation v2 (N3 scanner bucket, per-IP split)",
+ "published_capture_sha256": "cf356d6b1c229daa5f7dc0166bad79c647111558f4bcb45316f13c732d5694ab",
+ "published_capture_bytes": 24956
+}

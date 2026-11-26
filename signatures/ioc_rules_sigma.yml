@@ -1,0 +1,113 @@
+# AI agent attack signatures (MIT-licensed subset)
+#
+# Tier legend:
+#   T1 = framework-exclusive and verified to have zero hits on real traffic - deploy these
+#   T2 = generic attack semantics (a human attacker sends the same thing) - attack evidence only
+#   T3 = generic tooling identifiers / over-broad / dead patterns - excluded from this file
+#
+# Decision unit is the actor (all requests from one source IP within a time window),
+# not the individual request.
+#
+# Full metadata (source file:line, usage, stability, traffic verdict) is in ../rules.json.
+#
+
+# [T1] agent-zero | UA
+#   source: helpers/network.py:15
+Image|contains|UserAgent: "@mixedbread-ai/unstructured"
+
+# [T1] airecon | UA
+#   source: airecon/proxy/skills/reconnaissance/monitoring_secrets_exposure.md:111
+Image|contains|UserAgent: "sentry.javascript.browser/7.0.0"
+
+# [T1] airecon | UA
+#   source: airecon/proxy/skills/technologies/observability_stack_attacks.md:107
+Image|contains|UserAgent: "opentelemetry-collector-contrib/0.90.1 / opentelemetry-collector/1.0"
+
+# [T1] apex | UA
+#   source: src/core/session/index.ts:37
+Image|contains|UserAgent: "pensar-apex"
+
+# [T1] cain-agent | UA
+#   source: skills/aws-waf-attack.md:62
+Image|contains|UserAgent: "AttackerBot"
+
+# [T1] Cybermes | UA
+#   source: pkg/probe/probe.go:82
+Image|contains|UserAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Cybermes/2.1 (Security Assessment)"
+
+# [T1] Cybermes | UA
+#   source: pkg/fuzz/fuzzer.go:382
+Image|contains|UserAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Cybermes/3.2 (API Fuzzer)"
+
+# [T1] Cybermes | UA
+#   source: scripts/audit_ai_gateway_config.py:28
+Image|contains|UserAgent: "Cybermes-AIGateway-Auditor/1.0"
+
+# [T1] Cybermes | UA
+#   source: scripts/audit_exam_state_machine.py:109
+Image|contains|UserAgent: "Cybermes-ExamAuditor/1.0"
+
+# [T1] guardian-cli | UA
+#   source: tools/playwright_screenshot.py:154
+Image|contains|UserAgent: "Guardian-CLI/4 (security testing; +authorized engagement)"
+
+# [T1] hexstrike-ai | UA
+#   source: hexstrike_server.py:13287
+Image|contains|UserAgent: "HexStrike-HTTP-Framework/1.0 (Advanced Security Testing)"
+
+# [T1] hexstrike-ai | UA
+#   source: hexstrike_server.py:13644
+Image|contains|UserAgent: "HexStrike-BrowserAgent/1.0 (Security Testing)"
+
+# [T1] pentest-ai | UA
+#   source: engine/authenticated_scan.py:89
+Image|contains|UserAgent: "pentest-ai/authscan (+https://pentestai.xyz)"
+
+# [T1] pentest-copilot | UA
+#   source: backend/src/services/ctf.service.ts:126
+Image|contains|UserAgent: "PentestCopilot/1.0"
+
+# [T1] pentestcode | UA
+#   source: packages/opencode/src/tool/webfetch.ts:88
+Image|contains|UserAgent: "pentestcode"
+
+# [T1] raptor | UA
+#   source: packages/web/client.py:199
+Image|contains|UserAgent: "RAPTOR Security Scanner (Authorized Testing)"
+
+# [T1] redamon | UA
+#   source: recon/project_settings.py:328
+Image|contains|UserAgent: "RedAmon-AISurfaceRecon/1.0"
+
+# [T1] redamon | UA
+#   source: recon/cache_scan/scanner.py:103
+Image|contains|UserAgent: "RedAmon-CachePoison/1.0"
+
+# [T1] redamon | UA
+#   source: agentic/tradecraft/net.py:43
+Image|contains|UserAgent: "RedAmon-Tradecraft/2.0"
+
+# [T1] Zen-Ai-Pentest | UA
+#   source: autonomous/exploit_validator.py:1894
+Image|contains|UserAgent: "ZenAI-ExploitValidator/2.0"
+
+# [T1] Zen-Ai-Pentest | UA
+#   source: modules/api_scanner.py:335
+Image|contains|UserAgent: "Zen-Ai-Pentest-Scanner/1.0"
+
+# [T1] Zen-Ai-Pentest | UA
+#   source: zen_security/adversarial/red_team_framework.py:452
+Image|contains|UserAgent: "Zen-Security-Test/1.0"
+
+# [T1] Zen-Ai-Pentest | UA
+#   source: core/async_pool.py:67
+Image|contains|UserAgent: "Zen-AI-Pentest/1.0 (Security Scanner)"
+
+# [T1] DSH-selfbuilt | UA
+#   source: measured - AI traffic captured against this project's own honeypot target
+Image|contains|UserAgent: "dsh-pentest-poc/1.0"
+
+# [T1] DSH-selfbuilt | UA
+#   source: measured - AI traffic captured against this project's own honeypot target
+Image|contains|UserAgent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36 af-pentest/1.0"
+

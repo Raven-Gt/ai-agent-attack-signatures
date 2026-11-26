@@ -1,0 +1,15 @@
+Signatures in this directory are derived from copyleft-licensed upstream AI pentest
+frameworks and are licensed under the terms indicated in the `license` field of each
+rule in rules-agpl.json (AGPL-3.0 / GPL / LGPL as applicable).
+
+This directory is a separate licensed work from the MIT-licensed remainder of the
+repository. See ../NOTICE for the per-framework provenance table.
+
+                    GNU AFFERO GENERAL PUBLIC LICENSE
+                       Version 3, 19 November 2007
+
+Full text: https://www.gnu.org/licenses/agpl-3.0.txt
+
+  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+  Everyone is permitted to copy and distribute verbatim copies of this license
+  document, but changing it is not allowed.

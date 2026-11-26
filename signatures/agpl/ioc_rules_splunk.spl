@@ -1,0 +1,409 @@
+# AI agent attack signatures (AGPL subset - see ../NOTICE and ../LICENSE)
+#
+# Tier legend:
+#   T1 = framework-exclusive and verified to have zero hits on real traffic - deploy these
+#   T2 = generic attack semantics (a human attacker sends the same thing) - attack evidence only
+#   T3 = generic tooling identifiers / over-broad / dead patterns - excluded from this file
+#
+# Decision unit is the actor (all requests from one source IP within a time window),
+# not the individual request.
+#
+# Full metadata (source file:line, usage, stability, traffic verdict) is in rules-agpl.json.
+#
+
+# [T1] aracne | PAYLOAD
+#   source: agent/aracne.py:425
+body=/__ARACNE_EXIT__[^[ \t]/]+__/
+
+# [T1] aracne | PAYLOAD
+#   source: agent/aracne.py:475
+body=/re\.escape\(sentinel\)\(\\d\+\)/
+
+# [T1] aracne | CRED
+#   source: agent/config/goals.txt:8
+body=/test@example\.org/
+
+# [T1] aracne | CRED
+#   source: docker/ssh-target/Dockerfile:33
+body=/sk\-12345\-test\-key/
+
+# [T1] aracne | CRED
+#   source: docker/ssh-target/Dockerfile:34
+body=/Sup3rS3cret/
+
+# [T1] aracne | CRED
+#   source: docker/ssh-target/Dockerfile:35
+body=/jungle\ balcony\ fossil\ trophy\ lake\ utility\ glare\ dizzy\ debris\ canyon\ poem/
+
+# [T1] aracne | CRED
+#   source: docker/ssh-target/Dockerfile:36
+body=/mon\-239423/
+
+# [T1] aracne | PATH
+#   source: docker/ssh-target/Dockerfile:33
+uri=/home/alice/projects/legacy\-app/\.env/
+
+# [T1] cyber-harness | PAYLOAD
+#   source: exts/skills/assets/runtime/playwright.md:304
+body=/cyber_canary_8f2a/
+
+# [T1] CyberStrike | UA
+#   source: packages/cyberstrike/src/tool/webfetch.ts:71
+user_agent=/cyberstrike/
+
+# [T1] CyberStrike | UA
+#   source: .cyberstrike/skill/WEB/OWASP_WSTG_4.2/wstg-sess-11/SKILL.md:61
+user_agent=/DifferentDevice/[0-9]+\.[0-9]+/
+
+# [T1] CyberStrike | UA
+#   source: .cyberstrike/skill/WEB/OWASP_WSTG_4.2/wstg-sess-09/SKILL.md:71
+user_agent=/Different\-Browser/[0-9]+\.[0-9]+/
+
+# [T1] CyberStrike | UA
+#   source: .cyberstrike/skill/WEB/OWASP_WSTG_4.2/wstg-sess-09/SKILL.md:110
+user_agent=/DifferentBrowser/[0-9]+\.[0-9]+/
+
+# [T1] CyberStrike | UA
+#   source: .cyberstrike/skill/WEB/OWASP_WSTG_4.2/wstg-athn-10/SKILL.md:100
+user_agent=/TargetApp/[0-9]+\.[0-9]+\ \(iOS\)/
+
+# [T2] CyberStrike | PAYLOAD
+#   source: packages/cyberstrike/src/agent/prompt/vuln/injection/prompt.txt:369-373
+body=/(?:\{\{7\*7\}\}|\$\{7\*7\}|[^[ \t]/]+|\$\{\{7\*7\}\}|\#\{7\*7\})/
+
+# [T1] CyberStrike | HEADER
+#   source: .cyberstrike/skill/WEB/OWASP_WSTG_4.2/wstg-inpv-03/SKILL.md:185
+headers["X-Custom-Header"]=/X\-Custom\-Header:\ XST\-Test\-Value/
+
+# [T1] CyberStrike | UA
+#   source: packages/rea/scripts/audit-website-links.py:79
+user_agent=/REA\-Website\-Verifier/[0-9]+\.[0-9]+\ \(\+https://github\.com/morluto/rea\)/
+
+# [T1] Dark-Moon | PAYLOAD
+#   source: conf/agents/llm.md:375
+body=/"content":"Say\ the\ single\ word\ READY\."/
+
+# [T2] Dark-Moon | PAYLOAD
+#   source: conf/agents/gcp.md:384
+body=/gopher://metadata\.google\.internal:80/xGET%2520/computeMetadata/v1/instance/service\-accounts/%2520HTTP%252f%2531%252e%2531%250AHost:%2520metadata\.google\.internal%250AAccept:%2520%252a%252f%252a%250aMetadata\-Flavor:%2520Google%250d%250a/
+
+# [T1] Dark-Moon | HEADER
+#   source: conf/agents/gcp.md:390
+headers["Metadata-Flavor"]=/Metadata\-Flavor:\ Google/
+
+# [T2] Dark-Moon | PAYLOAD
+#   source: conf/agents/aspnet.md:1128
+body=/\{"__proto__":\ \{"isAdmin":\ true\}\}/
+
+# [T2] Dark-Moon | PAYLOAD
+#   source: conf/agents/aspnet.md:1129
+body=/\{"constructor":\ \{"prototype":\ \{"isAdmin":\ true\}\}\}/
+
+# [T1] Dark-Moon | PAYLOAD
+#   source: conf/agents/golang.md:469
+body=/'\);[^[ \t]/]+alert\(1\)[^[ \t]/]+\-\-/
+
+# [T1] Dark-Moon | PAYLOAD
+#   source: conf/agents/golang.md:470
+body=/'\}\}[^[ \t]/]+alert\(1\)[^[ \t]/]+\{\{/
+
+# [T1] Dark-Moon | HEADER
+#   source: conf/agents/backup.md:409
+headers["x-api-version"]=/x\-api\-version:\ 1\.1\-rev1/
+
+# [T1] Dark-Moon | PATH
+#   source: conf/agents/pentest.md:862
+uri=/actuator/\ /swagger\-ui\.html\ /swagger\-ui/\ /v3/api\-docs\ /h2\-console/\ /jolokia//
+
+# [T1] Dark-Moon | PATH
+#   source: conf/agents/aspnet.md:454
+uri=/graphql\ /api\-docs/
+
+# [T1] Dark-Moon | PATH
+#   source: conf/agents/aws.md:411
+uri=/latest/api/token\ /latest/meta\-data/iam/security\-credentials//
+
+# [T1] Dark-Moon | PATH
+#   source: conf/agents/gcp.md:390
+uri=/computeMetadata/v1/instance/service\-accounts/default/token\ /computeMetadata/v1/instance/service\-accounts/default/scopes/
+
+# [T1] Dark-Moon | PATH
+#   source: conf/agents/llm.md:373
+uri=/v1/models\ /api/tags\ /v1/chat/completions\ /api/chat/
+
+# [T1] deadend-cli | HEADER
+#   source: deadend_cli/deadend_prompts/src/deadend_prompts/tools/authenticate.description.jinja2:132
+headers["X-App"]=/X\-App:\ deadend/
+
+# [T2] deadend-cli | PAYLOAD
+#   source: deadend_cli/deadend_prompts/src/deadend_prompts/_shared/_vulnerability_playbooks.jinja2:22
+body=/'sleep\(5\)\#"sleep\(5\)\-\-`sleep\(5\)/
+
+# [T2] deadend-cli | PAYLOAD
+#   source: deadend_cli/deadend_prompts/src/deadend_prompts/_shared/_vulnerability_playbooks.jinja2:32
+body=/AND\ IF\(SUBSTRING\(password,1,1\)='a',SLEEP\(5\),0\)/
+
+# [T1] deadend-cli | PAYLOAD
+#   source: deadend_cli/deadend_prompts/src/deadend_prompts/_shared/_vulnerability_playbooks.jinja2:32
+body=/AND\ EXTRACTVALUE\(1,CONCAT\(0x7e,\(SELECT\ password\)\)\)/
+
+# [T1] deadend-cli | PAYLOAD
+#   source: deadend_cli/deadend_prompts/src/deadend_prompts/_shared/_vulnerability_playbooks.jinja2:11
+body=/(?:c'a't|c""at|\$'\\x63\\x61\\x74'|echo\ Y2F0\|base64\ \-d|chr\(99\)\+chr\(97\)\+chr\(116\))/
+
+# [T1] deadend-cli | PAYLOAD
+#   source: deadend_cli/deadend_prompts/src/deadend_prompts/_shared/_vulnerability_playbooks.jinja2:11
+body=/(?:eval\(atob\('YWxlcnQ='\)\)|String\.fromCharCode\(97,108,101,114,116\)|0x53454C454354|CHAR\(83\)\+CHAR\(69\)\+CHAR\(76\))/
+
+# [T2] deadend-cli | PAYLOAD
+#   source: deadend_cli/deadend_prompts/src/deadend_prompts/shell.instructions.jinja2:51
+body=/username=admin'\ OR\ '1'='1\&password=x/
+
+# [T1] deadend-cli | PAYLOAD
+#   source: deadend_cli/deadend_prompts/src/deadend_prompts/shell.instructions.jinja2:22
+body=/(?:\(\ LLM\ \)\ \[\^\ \\t/\]\*alert\(1\)\[\^\ \\t/\]\*\ base64|hex)/
+
+# [T1] numasec | UA
+#   source: packages/numasec/src/tool/appsec-probe.ts:218
+user_agent=/numasec\-appsec\-probe/[0-9]+\.[0-9]+/
+
+# [T1] numasec | PAYLOAD
+#   source: packages/numasec/src/tool/appsec-probe.ts:333
+body=/[^[ \t]/]+numasec\-xss[^[ \t]/]+/
+
+# [T1] numasec | CRED
+#   source: packages/numasec/src/tool/appsec-probe.ts:401
+body=/numasec\-probe@example\.invalid/
+
+# [T1] numasec | CRED
+#   source: packages/numasec/src/tool/appsec-probe.ts:402
+body=/numasec\-probe/
+
+# [T2] numasec | PAYLOAD
+#   source: packages/numasec/src/tool/appsec-probe.ts:331
+body=/'\ OR\ 1=1\-\-/
+
+# [T1] numasec | UA
+#   source: packages/numasec/src/tool/webfetch.ts:99
+user_agent=/numasec/
+
+# [T1] numasec | PATH
+#   source: packages/numasec/src/scanner/crawl.ts:135
+uri=/openapi\.json\ /swagger\.json\ /api\-docs\ /v2/api\-docs\ /v3/api\-docs/
+
+# [T1] Pentest-Swarm-AI | HEADER
+#   source: internal/agent/exploit/authbypassheader.go:19
+headers["X-Override-URL"]=/X\-Override\-URL/
+
+# [T1] Pentest-Swarm-AI | PATH
+#   source: internal/agent/exploit/authbypassheader.go:28
+uri=/vV9x\-nonexistent\-9271/
+
+# [T1] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/sstispec.go:16
+body=/191\*193/
+
+# [T2] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/sstispec.go:28
+body=/(?:\{\{191\*193\}\}|\$\{191\*193\}|\{191\*193\}|[^[ \t]/]+|\#set\(\$p=191\*193\)\$p|@\(191\*193\))/
+
+# [T1] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/openredirectspec.go:9
+body=/https://evil\.pentestswarm\.invalid/pstest/
+
+# [T2] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/lfispec.go:24
+body=/\.\./\.\./\.\./\.\./\.\./\.\./\.\./\.\./etc/passwd/
+
+# [T2] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/cmdinjectionspec.go:17
+body=/;curl\ [^[ \t]/]+;`curl\ [^[ \t]/]+`\$\(curl\ [^[ \t]/]+\)\|curl\ [^[ \t]/]+/
+
+# [T1] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/xxespec.go:14
+body=/[^[ \t]/]+">\]>[^[ \t]/]+[^[ \t]/]+\&xxe;[^[ \t]/]+[^[ \t]/]+/
+
+# [T2] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/sqlispec.go:71
+body=/1'\ AND\ SLEEP\([^[ \t]/]+\)\-\-\ \-/
+
+# [T2] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/sqlispec.go:76
+body=/1';\ WAITFOR\ DELAY\ '0:0:[^[ \t]/]+'\-\-\ \-/
+
+# [T1] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/sqlispec.go:78
+body=/[0-9]+'\ AND\ DBMS_PIPE\.RECEIVE_MESSAGE\('a',[^[ \t]/]+\)\-\-\ \-/
+
+# [T1] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/nosqlspec.go:37
+body=/\{"[^[ \t]/]+":\{"\$gt":""\},"[^[ \t]/]+":\{"\$gt":""\}\}/
+
+# [T1] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/jwt.go:150
+body=/\{"alg":"none","typ":"JWT"\}/
+
+# [T1] Pentest-Swarm-AI | PATH
+#   source: internal/agent/recon/apispec.go:25
+uri=/openapi\.json\ /openapi\.yaml\ /openapi\ /swagger\.json\ /swagger\.yaml\ /v3/api\-docs\ /v2/api\-docs\ /api\-docs\ /api\-docs\.json\ /api/openapi\.json\ /api/swagger\.json\ /swagger/v1/swagger\.json\ /swagger/doc\.json\ /docs/openapi\.json\ /api\-json\ /api/docs\-json\ /api/spec\ /api/spec\.json\ /api/schema/\ /api/schema\ /schema/\ /openAPI\-spec\.json/
+
+# [T2] Pentest-Swarm-AI | PAYLOAD
+#   source: internal/agent/exploit/agent.go:112
+body=/(?:\{\{7\*7\}\}|\$\{7\*7\})/
+
+# [T2] Pentest-Swarm-AI | PATH
+#   source: internal/agent/exploit/agent.go:111
+uri=/http://[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/latest/meta\-data/
+
+# [T2] Pojun | PAYLOAD
+#   source: agent/poc_scaffold.go:121
+body=/http://127\.0\.0\.1:9/canary/
+
+# [T1] Pojun | PAYLOAD
+#   source: agent/poc_scaffold.go:122
+body=/http://100\.100\.100\.200/latest/meta\-data//
+
+# [T1] Pojun | PAYLOAD
+#   source: agent/poc_scaffold.go:122
+body=/http://metadata\.google\.internal/computeMetadata/v1//
+
+# [T2] Pojun | PAYLOAD
+#   source: agent/poc_scaffold.go:122
+body=/gopher://127\.0\.0\.1:6379/_PING/
+
+# [T2] Pojun | PAYLOAD
+#   source: agent/poc_scaffold.go:122
+body=/file:///etc/passwd/
+
+# [T2] Pojun | PAYLOAD
+#   source: agent/poc_scaffold.go:79
+body=/(?:1'\ AND\ SLEEP\(3\)\-\-\ \-|1\)\ AND\ SLEEP\(3\)\-\-\ \-)/
+
+# [T1] Pojun | PAYLOAD
+#   source: agent/validators/validators_rce.go:23
+body=/echo\ \+\ 16\ hex/
+
+# [T2] sage | PATH
+#   source: Payload_Type/sage/ttps/linux-credential-hunting.md:132
+uri=/http://169\.254\.169\.254/latest/meta\-data/iam/security\-credentials//
+
+# [T2] sage | PATH
+#   source: Payload_Type/sage/ttps/linux-credential-hunting.md:133
+uri=/http://169\.254\.169\.254/metadata/identity/oauth2/token\?api\-version=2018\-02\-01\&resource=https://management\.azure\.com//
+
+# [T1] sage | HEADER
+#   source: Payload_Type/sage/ttps/linux-credential-hunting.md:133
+headers["Metadata"]=/Metadata:\ true/
+
+# [T1] sage | PATH
+#   source: Payload_Type/sage/ttps/sharpcloud.md:82
+uri=/http://metadata\.google\.internal/computeMetadata/v1/instance/service\-accounts/default/token/
+
+# [T1] sage | CRED
+#   source: Payload_Type/sage/ttps/bloodhound-python.md:29
+body=/Password123/
+
+# [T1] sage | CRED
+#   source: Payload_Type/sage/ttps/acl-abuse-chain.md:29
+body=/P@ssNew1!/
+
+# [T1] sage | CRED
+#   source: Payload_Type/sage/ttps/certipy.md:72
+body=/(?:jon\.snow|administrator@corp\.local)/
+
+# [T1] sage | CRED
+#   source: Payload_Type/sage/ttps/whisker.md:122
+body=/(?:north\.sevenkingdoms\.local|DC01\.north\.sevenkingdoms\.local)/
+
+# [T1] scopeweaver | UA
+#   source: enrich/enrich.go:241
+user_agent=/artex\-enrich/[0-9]+\.[0-9]+/
+
+# [T1] shannon | HEADER
+#   source: apps/cli/src/exp-php2shell/multipart.ts:26
+headers["----shannonPhp2shellProbe"]=/\-\-\-\-shannonPhp2shellProbe/
+
+# [T1] shannon | PAYLOAD
+#   source: apps/cli/src/exp-php2shell/multipart.ts:42
+body=/multipart\ part\ Content\-Disposition/
+
+# [T1] shannon | UA
+#   source: apps/worker/src/services/preflight.ts:410
+user_agent=/\(\ \)\ HEAD\ User\-Agent/
+
+# [T1] shannon | HEADER
+#   source: apps/worker/prompts/exploit-ssrf.txt:299
+headers["Metadata-Flavor"]=/Metadata\-Flavor:\ Google/
+
+# [T1] shannon | HEADER
+#   source: apps/worker/prompts/exploit-ssrf.txt:295
+headers["Metadata"]=/Metadata:\ true/
+
+# [T2] shannon | PATH
+#   source: apps/worker/prompts/exploit-ssrf.txt:290
+uri=/http://169\.254\.169\.254/latest/meta\-data/\ \(\+\ /iam/security\-credentials/\)/
+
+# [T2] shannon | CRED
+#   source: apps/worker/prompts/exploit-auth.txt:295
+body=/(?:admin|password|123456)/
+
+# [T2] shannon | PAYLOAD
+#   source: apps/worker/prompts/exploit-injection.txt:333
+body=/(?:;\ WAITFOR\ DELAY\ '00:00:05'\-\-|'\ AND\ SLEEP\(5\)\-\-|pg_sleep\(5\)|'\ UNION\ SELECT\ NULL\-\-|'\ AND\ 1=1\-\-|'\ AND\ 1=2\-\-)/
+
+# [T2] shannon | PAYLOAD
+#   source: apps/worker/prompts/vuln-injection.txt:206
+body=/(?:\{\{7\*7\}\}|\$\{7\*7\}|[^[ \t]/]+|\#\{7\*7\}|\{\{config\.items\(\)\}\}|\{\{''\.__class__\.__mro__\[[0-9]+\]\.__subclasses__\(\)\}\})/
+
+# [T1] shannon | PAYLOAD
+#   source: apps/worker/prompts/vuln-xss.txt:110
+body=/(?:">[^[ \t]/]+alert\(1\)[^[ \t]/]+|"\ onmouseover=alert\(1\)|[^[ \t]/]+[^[ \t]/]+[^[ \t]/]+">)/
+
+# [T2] shannon | PAYLOAD
+#   source: apps/worker/prompts/exploit-injection.txt:202
+body=/'\ UNION\ SELECT\ NULL\-\-/
+
+# [T1] T3MP3ST | PAYLOAD
+#   source: src/arsenal/index.ts:1479
+body=/definitely_invalid_password_xyz123!@\#/
+
+# [T1] T3MP3ST | PAYLOAD
+#   source: src/arsenal/index.ts:1469
+body=/password/123456/admin/letmein/welcome/Password1/password123/qwerty/abc123/111111/
+
+# [T1] T3MP3ST | PATH
+#   source: src/arsenal/index.ts:2342
+uri=/swagger\.json\ /swagger\-ui\ /openapi\.json\ /api\-docs\ /graphql\ /graphiql\ /\.well\-known/openid\-configuration\ /wp\-json/wp/v2\ /prometheus\ /jsonapi\ /playground\ /redoc/
+
+# [T1] T3MP3ST | PATH
+#   source: src/arsenal/index.ts:2066
+uri=/wp\-includes/version\.php\ /CHANGELOG\.txt\ /readme\.html\ /package\.json\ /composer\.json/
+
+# [T2] T3MP3ST | PAYLOAD
+#   source: src/arsenal/index.ts:1165
+body=/(?:[^[ \t]/]+alert\(1\)[^[ \t]/]+|[^[ \t]/]+|">[^[ \t]/]+|'\-alert\(1\)\-'|[^[ \t]/]+|\{\{constructor\.constructor\("alert\([0-9]+\)"\)\(\)\}\})/
+
+# [T2] T3MP3ST | PAYLOAD
+#   source: src/arsenal/index.ts:1234
+body=/(?:'\ OR\ '1'='1|'\ AND\ '1'='2|1\ UNION\ SELECT\ NULL\-\-|';\ WAITFOR\ DELAY\ '0:0:0'\-\-|'\ AND\ SLEEP\(0\)\-\-)/
+
+# [T1] T3MP3ST | PAYLOAD
+#   source: src/arsenal/index.ts:2752
+body=/(?:https://evil\.com%[0-9]+\.legitimate\.com|https://evil\.com\?\.legitimate\.com|https://evil\.com\#\.legitimate\.com|https://evil\.com@legitimate\.com|/%[0-9]+f/evil\.com|/\\evil\.com|data:text/html,[^[ \t]/]+alert\(1\)[^[ \t]/]+)/
+
+# [T1] T3MP3ST | PAYLOAD
+#   source: src/arsenal/index.ts:2863
+body=/nonexistent_file_xyz/
+
+# [T1] T3MP3ST | PAYLOAD
+#   source: src/server.ts:146
+body=/(?:http://2130706433|http://0x7f000001|http://0177\.0\.0\.1|http://127\.0\.0\.1\.nip\.io|http://localtest\.me|http://127\.0\.0\.1%00/)/
+
+# [T2] T3MP3ST | PAYLOAD
+#   source: src/server.ts:122
+body=/(?:http://169\.254\.169\.254/latest/meta\-data/|http://169\.254\.169\.254/latest/meta\-data/iam/security\-credentials/|http://metadata\.google\.internal/computeMetadata/v1/)/
+
+# [T1] T3MP3ST | HEADER
+#   source: src/arsenal/index.ts:95
+headers["TEMPEST_TARGET_HEADERS"]=/TEMPEST_TARGET_HEADERS/
+

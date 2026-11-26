@@ -1,0 +1,268 @@
+{
+ "negative_population": "Real-attacker actors taken from a 30-day WAF audit log, grouped per source address.",
+ "negative_attacker_actors": 1582,
+ "positive_actors": 13,
+ "positive_frameworks": 10,
+ "threshold": {
+  "0.25": {
+   "recall": 1.0,
+   "fp": 383,
+   "fpr": 0.24209860935524652,
+   "fpr_ci": [
+    0.22163128600719537,
+    0.2638154320004543
+   ]
+  },
+  "0.3": {
+   "recall": 0.9230769230769231,
+   "fp": 67,
+   "fpr": 0.042351453855878636,
+   "fpr_ci": [
+    0.033486225001252555,
+    0.05343393146330229
+   ]
+  },
+  "0.35": {
+   "recall": 0.9230769230769231,
+   "fp": 43,
+   "fpr": 0.02718078381795196,
+   "fpr_ci": [
+    0.020241239395493653,
+    0.036411076951864116
+   ]
+  },
+  "0.4": {
+   "recall": 0.9230769230769231,
+   "fp": 34,
+   "fpr": 0.021491782553729456,
+   "fpr_ci": [
+    0.015419949483799935,
+    0.029881926819608932
+   ]
+  },
+  "0.45": {
+   "recall": 0.8461538461538461,
+   "fp": 17,
+   "fpr": 0.010745891276864728,
+   "fpr_ci": [
+    0.006719919471047758,
+    0.01714223674934651
+   ]
+  },
+  "0.5": {
+   "recall": 0.8461538461538461,
+   "fp": 3,
+   "fpr": 0.0018963337547408343,
+   "fpr_ci": [
+    0.0006451178878777526,
+    0.005560798264151554
+   ]
+  },
+  "0.55": {
+   "recall": 0.6923076923076923,
+   "fp": 2,
+   "fpr": 0.0012642225031605564,
+   "fpr_ci": [
+    0.00034675663963300036,
+    0.004597999507513095
+   ]
+  },
+  "0.6": {
+   "recall": 0.6923076923076923,
+   "fp": 2,
+   "fpr": 0.0012642225031605564,
+   "fpr_ci": [
+    0.00034675663963300036,
+    0.004597999507513095
+   ]
+  }
+ },
+ "taus": {
+  "0.25": {
+   "recall": 1.0,
+   "fp": 383,
+   "fpr": 0.24209860935524652,
+   "fpr_ci": [
+    0.22163128600719537,
+    0.2638154320004543
+   ]
+  },
+  "0.3": {
+   "recall": 0.9230769230769231,
+   "fp": 67,
+   "fpr": 0.042351453855878636,
+   "fpr_ci": [
+    0.033486225001252555,
+    0.05343393146330229
+   ]
+  },
+  "0.35": {
+   "recall": 0.9230769230769231,
+   "fp": 43,
+   "fpr": 0.02718078381795196,
+   "fpr_ci": [
+    0.020241239395493653,
+    0.036411076951864116
+   ]
+  },
+  "0.4": {
+   "recall": 0.9230769230769231,
+   "fp": 34,
+   "fpr": 0.021491782553729456,
+   "fpr_ci": [
+    0.015419949483799935,
+    0.029881926819608932
+   ]
+  },
+  "0.45": {
+   "recall": 0.8461538461538461,
+   "fp": 17,
+   "fpr": 0.010745891276864728,
+   "fpr_ci": [
+    0.006719919471047758,
+    0.01714223674934651
+   ]
+  },
+  "0.5": {
+   "recall": 0.8461538461538461,
+   "fp": 3,
+   "fpr": 0.0018963337547408343,
+   "fpr_ci": [
+    0.0006451178878777526,
+    0.005560798264151554
+   ]
+  },
+  "0.55": {
+   "recall": 0.6923076923076923,
+   "fp": 2,
+   "fpr": 0.0012642225031605564,
+   "fpr_ci": [
+    0.00034675663963300036,
+    0.004597999507513095
+   ]
+  },
+  "0.6": {
+   "recall": 0.6923076923076923,
+   "fp": 2,
+   "fpr": 0.0012642225031605564,
+   "fpr_ci": [
+    0.00034675663963300036,
+    0.004597999507513095
+   ]
+  }
+ },
+ "recomputed_on_released_set": {
+  "positive_captures": 15,
+  "positive_frameworks": 12,
+  "note": "The trade-off artifact was produced against an earlier positive set of 13 actor captures over 10 frameworks. The recall columns below are recomputed from the released 15 captures over 12 frameworks; the false-positive columns are unchanged because the negative population did not change.",
+  "rows": [
+   {
+    "threshold": "0.25",
+    "captures_detected": 15,
+    "capture_recall": 1.0,
+    "frameworks_detected": 12,
+    "framework_recall": 1.0
+   },
+   {
+    "threshold": "0.3",
+    "captures_detected": 13,
+    "capture_recall": 0.8666666666666667,
+    "frameworks_detected": 10,
+    "framework_recall": 0.8333333333333334
+   },
+   {
+    "threshold": "0.35",
+    "captures_detected": 13,
+    "capture_recall": 0.8666666666666667,
+    "frameworks_detected": 10,
+    "framework_recall": 0.8333333333333334
+   },
+   {
+    "threshold": "0.4",
+    "captures_detected": 13,
+    "capture_recall": 0.8666666666666667,
+    "frameworks_detected": 10,
+    "framework_recall": 0.8333333333333334
+   },
+   {
+    "threshold": "0.45",
+    "captures_detected": 11,
+    "capture_recall": 0.7333333333333333,
+    "frameworks_detected": 8,
+    "framework_recall": 0.6666666666666666
+   },
+   {
+    "threshold": "0.5",
+    "captures_detected": 11,
+    "capture_recall": 0.7333333333333333,
+    "frameworks_detected": 8,
+    "framework_recall": 0.6666666666666666
+   },
+   {
+    "threshold": "0.55",
+    "captures_detected": 9,
+    "capture_recall": 0.6,
+    "frameworks_detected": 6,
+    "framework_recall": 0.5
+   },
+   {
+    "threshold": "0.6",
+    "captures_detected": 9,
+    "capture_recall": 0.6,
+    "frameworks_detected": 6,
+    "framework_recall": 0.5
+   }
+  ]
+ },
+ "rule_discrimination": {
+  "E1": {
+   "pos": 0.46153846153846156,
+   "neg": 0.022123893805309734
+  },
+  "E11": {
+   "pos": 0.7692307692307693,
+   "neg": 0.24399494310998734
+  },
+  "E12": {
+   "pos": 1.0,
+   "neg": 0.0
+  },
+  "E14": {
+   "pos": 0.0,
+   "neg": 0.22187104930467763
+  },
+  "E15": {
+   "pos": 0.0,
+   "neg": 0.0006321112515802782
+  },
+  "E2": {
+   "pos": 0.23076923076923078,
+   "neg": 0.15739570164348926
+  },
+  "E3": {
+   "pos": 0.6153846153846154,
+   "neg": 0.0
+  },
+  "E4": {
+   "pos": 0.07692307692307693,
+   "neg": 0.0
+  },
+  "E5": {
+   "pos": 0.46153846153846156,
+   "neg": 0.16371681415929204
+  },
+  "E6": {
+   "pos": 0.9230769230769231,
+   "neg": 0.41845764854614415
+  },
+  "E7": {
+   "pos": 0.7692307692307693,
+   "neg": 0.02970922882427307
+  },
+  "E9": {
+   "pos": 0.7692307692307693,
+   "neg": 0.00695322376738306
+  }
+ },
+ "rule_discrimination_note": "pos = share of positive actor captures in which the rule fires; neg = share of the negative attacker actors in which it fires."
+}

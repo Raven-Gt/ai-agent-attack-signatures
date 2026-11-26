@@ -1,0 +1,65 @@
+repository,source_audit_present,ioc_inventory_present,ioc_feature_count,ioc_class_a_target_side_count,runtime_status,runtime_capture_label,target_side_attributable,runtime_note
+AI-OPS,yes,yes,21,18,executed-ok-no-framework-fingerprint,,partial,"Container and model gateway run succeeded, but /model reports tool_use:false, so the full attack turn did not complete."
+AIDA,yes,yes,5,3,blocked-recorded,,no,"Requires starting the back end, the database, registration and login, and creating an assessment; not a single command."
+ARTEMIS,yes,yes,32,26,blocked-recorded,,no,base_url is hard-coded; 6 source changes plus a 10-40 minute Rust build.
+ARTEX-main,yes,yes,11,4,executed-ok-no-framework-fingerprint,,partial,Ran successfully; the native Go request user agent is norma/0.4; in practice the worker drives bash and then curl.
+AutoPT,yes,yes,2,0,executed-captured,autopt,yes-framework-own-fingerprint,"1 actor capture, score 0.415."
+AutoPentester,yes,yes,0,0,executed-ok-no-framework-fingerprint,,partial,Requires interactive driving plus a first RAG run of 10 minutes; the full turn did not complete.
+BugTraceAI,yes,yes,0,0,blocked-recorded,,no,The repository is only an ecosystem meta-repository; all 5 submodules are empty.
+Cairn,yes,yes,1,0,blocked-recorded,,no,The codex worker hard-codes the responses protocol; the pi worker has to be used instead.
+CyberStrike,yes,yes,17,14,executed-ok-no-framework-fingerprint,,partial,Ran successfully; own user agent cyberstrike/2.0.0; the target-side webfetch path uses a Chrome user agent.
+CyberStrikeAI,yes,yes,15,15,executed-captured,csai,yes-framework-own-fingerprint,"1 actor capture, score 0.658."
+Cybermes,yes,yes,25,19,executed-ok-with-framework-fingerprint,,partial,"Go net/http direct calls with own user agents Cybermes/2.1 (Security Assessment) / (Recon Crawler) / Cybermes/3.2 (API Fuzzer) and a fixed Accept: */*; go build verified, but no target traffic was captured in this round."
+Dark-Moon,yes,yes,23,21,blocked-recorded,,no,"Image registry blocked; a local build needs oven/bun, which has no reachable source."
+Decepticon,yes,yes,45,30,blocked-recorded,,no,"TUI only, plus a 10-20 GB stack."
+HackSynth,yes,yes,0,0,blocked-recorded,,no,"Four hard blockers: ImportError, a Neptune account, the Kali image, and a model name restricted to gpt-o1."
+Incalmo,yes,yes,19,10,blocked-recorded,,no,"The Kali image is unreachable and the equifax environment is hard-coded, so it cannot be pointed at the evaluation target."
+LuaN1aoAgent,yes,yes,5,0,blocked-recorded,,no,Requires Node 25 or later and two image builds.
+NeuroSploit,yes,yes,23,20,blocked-recorded,,no,The Rust build takes 1-3 hours and crates.io is very slow; not completed in this round.
+PentAGI,yes,yes,5,0,executed-captured,lab5/lab6,yes-framework-own-fingerprint,"2 actor captures, best score 0.774."
+Pentest-Swarm-AI,yes,yes,35,24,executed-ok-dry-run-only,,no,A scan --dry-run completed the whole flow in 16 seconds and consumed real model tokens; the full attack turn was not run (16 external tools missing).
+PentestGPT,yes,yes,5,0,blocked-recorded,,no,Requires an already signed-in Claude Code or Codex CLI; the legacy route never touches the target.
+PentesterFlow,yes,yes,34,16,executed-captured,lab7,yes-framework-own-fingerprint,"1 actor capture, score 0.506."
+Pojun,yes,yes,28,19,executed-ok-no-framework-fingerprint,,partial,Ran successfully; the enrich probe user agent was changed to Chrome/131 and no longer exposes a framework identifier.
+T3MP3ST,yes,yes,25,20,blocked-recorded,,no,An approval gate must be passed first; the operator value has to be aligned.
+VulnBot,yes,yes,6,0,blocked-recorded,,no,Requires a separate SSH-reachable Kali attack host; the framework itself issues no HTTP to the target.
+Zen-Ai-Pentest,yes,yes,25,19,blocked-recorded,,no,"https:// is hard-coded, so the code must be changed for an HTTP target; the traffic is entirely from tools such as nuclei."
+agent-zero,yes,yes,3,1,blocked-recorded,,no,Not a penetration-testing framework; the image cannot be pulled.
+airecon,yes,yes,45,39,blocked-recorded,,partial,A Kali sandbox is built at start-up and the kalilinux image is unreachable locally; the framework itself uses httpx and has 39 class-A target-side features.
+antifox,yes,yes,12,4,executed-captured,antifox,yes-framework-own-fingerprint,"1 actor capture, 2799 records, score 0.617."
+apex,yes,yes,9,4,executed-ok-no-framework-fingerprint,,partial,"Ran successfully; the framework's own user agent is pensar-apex, but only 6 target-side samples were captured, too few to form an independent actor."
+aracne,yes,yes,14,10,blocked-recorded,,no,The architecture only supports SSH targets; the HTTP evaluation target has no SSH.
+ares,yes,yes,5,1,blocked-recorded,,no,Dedicated to Active Directory and Windows domains; it produces no web attack traffic.
+artex,yes,yes,9,3,executed-ok-no-framework-fingerprint,,partial,Ran successfully after a one-line patch to build; own user agent artex-enrich/1.0.
+autopentest,yes,yes,0,0,blocked-recorded,,no,Playwright browser download is large; it runs nmap at start-up.
+autopentest-ai,yes,yes,18,17,blocked-recorded,,no,The Docker build needs a dozen GitHub repositories cloned.
+blacksmith,yes,yes,2,0,blocked-recorded,,no,The mini-kali image is blocked and the embedding interface gateway does not support it.
+cai,yes,yes,0,0,executed-ok-no-framework-fingerprint,,no,REPL/HTTP API shape; the audit confirmed only 1 T1 rule (an Accept string containing application/pdf); the main path is the model writing Kali shell curl commands on the fly.
+cain-agent,yes,yes,33,29,blocked-recorded,,no,The default Claude backend is unavailable; --backend pi is required.
+cyber-harness,yes,yes,18,11,executed-ok-no-framework-fingerprint,,partial,Ran successfully; own user agent cyber / compatible; cyber/1.0.
+deadend-cli,yes,yes,19,17,blocked-recorded,,partial,The first run needs the presetup wizard and a pre-seeded config.json; Docker and Playwright are also required.
+echidna,yes,yes,16,3,blocked-recorded,,no,A Mythic C2 server is required; the repository only ships the agent side.
+forang,yes,yes,16,5,executed-ok-no-framework-fingerprint,,partial,Ran successfully (a Norma dependency must be cloned first); own user agents FORANG-DirScan and FORANG-Repeater.
+guardian-cli,yes,yes,9,9,executed-ok-no-framework-fingerprint,,partial,"Installation and --help were verified, but the built-in blacklist rejects every local address in a fail-closed manner, so no actual attack was performed."
+hackingBuddyGPT,yes,yes,25,14,executed-captured,hbgpt,yes-framework-own-fingerprint,"1 actor capture, score 0.280."
+hexstrike-ai,yes,yes,28,26,executed-ok-no-framework-fingerprint,,partial,Ran successfully; own user agent HexStrike-HTTP-Framework/1.0.
+mapta,yes,yes,0,0,blocked-recorded,,no,The repository lacks the function_tool module and depends on the Responses API.
+nebula,yes,yes,14,0,blocked-recorded,,partial,There is no pure command-line one-shot run; a provider profile and an engagement must be created first; chromadb and Playwright installs are heavy.
+numasec,yes,yes,16,13,executed-ok-no-framework-fingerprint,,partial,"Ran successfully; webfetch uses a Chrome user agent, and on a Cloudflare 403 fallback the user agent becomes numasec."
+pentest-ai,yes,yes,28,23,executed-captured,ptai,yes-framework-own-fingerprint,"1 actor capture, score 0.250."
+pentest-ai-agents,yes,yes,11,11,blocked-recorded,,no,Requires a paid Claude Code account; in substance it is a prompt pack rather than a tool.
+pentest-copilot,yes,yes,14,8,blocked-recorded,,no,A separate SSH-reachable Kali attack host is mandatory.
+pentestagent,yes,yes,4,3,blocked-recorded,,no,"Requires Playwright Chromium; the tool set has no HTTP tool, so all traffic comes from the shell."
+pentestcode,yes,yes,29,25,executed-ok-no-framework-fingerprint,,partial,The binary runs (--version 0.2.6) but the full attack turn did not complete.
+raptor,yes,yes,44,32,executed-captured,raptor,yes-framework-own-fingerprint,"1 actor capture, score 0.428."
+redamon,yes,yes,18,12,blocked-recorded,,no,Deployment takes 30-60 minutes and 20+ containers.
+redcell,yes,yes,12,3,blocked-recorded,,no,A 6-container stack whose LLM provider configuration can only be stored in the database.
+sage,yes,yes,17,9,blocked-recorded,,no,A Mythic C2 plugin whose README explicitly forbids direct connections to targets.
+sapper-v2,yes,yes,18,18,blocked-recorded,,no,Requires a self-hosted answer-platform API and the Anthropic protocol.
+scopeweaver,yes,yes,7,2,executed-ok-no-framework-fingerprint,,partial,Ran successfully; the framework itself produced almost no target-side traffic (the attack traffic is entirely generated by the model invoking curl/nmap/ffuf).
+shannon,yes,yes,17,15,executed-ok-no-framework-fingerprint,,partial,"Ran successfully, but the target-side traffic comes from Chromium and curl inside the container; the native framework only speaks Temporal gRPC."
+strix,yes,yes,23,2,executed-captured,strix,yes-framework-own-fingerprint,"1 actor capture, score 0.798."
+virga,yes,yes,7,0,blocked-recorded,,no,A C2 framework rather than a scanner; the server side does not compile and it has no request path to the target.
+vulnerator-ai,yes,yes,3,2,blocked-recorded,,no,"Deployment takes 30-60 minutes, 20+ containers and gigabyte-scale images."
+xalgorix,yes,yes,32,28,executed-captured,xalgorix,yes-framework-own-fingerprint,"1 actor capture, score 0.540."
+ycode-auto-pentest,yes,yes,24,8,executed-ok-no-framework-fingerprint,,partial,Ran successfully; own user agents YCode-recon/0.3 and the X-YC-Junk header.

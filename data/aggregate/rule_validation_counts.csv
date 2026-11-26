@@ -1,0 +1,26 @@
+metric,value,description
+rule_set_total_rules,610,IOC rule set (release edition)
+rule_set_tier_T1,272,"Framework-exclusive rules, alertable on their own"
+rule_set_tier_T2,126,"Attack-evidence rules, require behavioural corroboration"
+rule_set_tier_T3,212,Withdrawn rules
+rule_set_class_A,544,Rules of indicator class A
+rule_set_class_B,61,Rules of indicator class B
+rule_set_class_C,5,Rules of indicator class C
+rule_set_scope_target,610,Rules whose match is observable on the target side
+rule_set_distinct_frameworks,44,Distinct frameworks referenced by the rule set
+rule_set_kind_CRED,37,Rules by indicator kind
+rule_set_kind_HEADER,110,Rules by indicator kind
+rule_set_kind_OAST,14,Rules by indicator kind
+rule_set_kind_PATH,82,Rules by indicator kind
+rule_set_kind_PAYLOAD,291,Rules by indicator kind
+rule_set_kind_PROXY,1,Rules by indicator kind
+rule_set_kind_TLS,13,Rules by indicator kind
+rule_set_kind_UA,62,Rules by indicator kind
+waf_real_attack_transactions,142705,Transactions parsed from the 30-day WAF audit log
+waf_real_attack_transactions_with_ua,139598,Transactions that carried a user agent
+waf_real_attack_transactions_with_body,0,Transactions that carried a request body
+waf_t1_rules_hit_on_real_attacks,0,T1 rules matched on real attack traffic after the tier fixes
+waf_body_t1_rules_hit,0,T1 body rules matched on real attack traffic
+background_traffic_rows,9905794,Rows in the public background-noise traffic scan
+background_traffic_distinct_source_addresses,80987,Distinct source addresses in the background scan
+background_traffic_t1_rules_hit,0,T1 rules matched on background traffic

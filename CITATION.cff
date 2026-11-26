@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use these signatures or the methodology, please cite this work."
+title: "ai-agent-attack-signatures: Traffic Signatures and Detection Methodology for AI-Powered Penetration-Testing Agents"
+abstract: >-
+  An empirical study of 65 AI pentest frameworks that determines which ones leave an
+  attributable fingerprint on the target side. Ships 272 validated strong signatures
+  (zero hits across 9.9M public internet requests and 142,705 real WAF attack
+  transactions), a behavioural detector reaching 86.7% segment recall at a 2.72%
+  false-positive rate on 1,582 real attackers, and a measured account of where
+  attribution provably fails.
+type: software
+license: MIT
+repository-code: "https://github.com/<owner>/ai-agent-attack-signatures"
+keywords:
+  - security
+  - ai-agents
+  - penetration-testing
+  - detection
+  - network-traffic
+  - threat-detection
+  - ioc

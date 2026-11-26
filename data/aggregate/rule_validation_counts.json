@@ -1,0 +1,220 @@
+{
+ "rule_set_coverage_note": "The rule set references 44 distinct framework labels; the framework coverage matrix lists 64 audited repositories. The difference is made up of repositories that contributed no rule and of synthetic labels used for the project's own components.",
+ "rule_set": {
+  "total_rules": 610,
+  "by_tier": {
+   "T1": 272,
+   "T3": 212,
+   "T2": 126
+  },
+  "by_kind": {
+   "UA": 62,
+   "PATH": 82,
+   "HEADER": 110,
+   "PAYLOAD": 291,
+   "TLS": 13,
+   "CRED": 37,
+   "OAST": 14,
+   "PROXY": 1
+  },
+  "class_A": 544,
+  "scope_target": 610,
+  "distinct_frameworks": 44,
+  "frameworks_by_rule_count": {
+   "airecon": 41,
+   "Decepticon": 33,
+   "raptor": 28,
+   "cain-agent": 27,
+   "Pentest-Swarm-AI": 26,
+   "xalgorix": 26,
+   "hackingBuddyGPT": 25,
+   "hexstrike-ai": 22,
+   "pentestcode": 22,
+   "strix": 20,
+   "ARTEMIS": 19,
+   "Zen-Ai-Pentest": 19,
+   "Cybermes": 18,
+   "Dark-Moon": 18,
+   "T3MP3ST": 18,
+   "pentest-ai": 18,
+   "autopentest-ai": 16,
+   "Pojun": 15,
+   "deadend-cli": 15,
+   "sapper-v2": 15,
+   "NeuroSploit": 14,
+   "shannon": 14,
+   "CyberStrike": 12,
+   "CyberStrikeAI": 12,
+   "AI-OPS": 11,
+   "cyber-harness": 11,
+   "numasec": 11,
+   "redamon": 11,
+   "Incalmo": 10,
+   "aracne": 10,
+   "sage": 9,
+   "pentest-copilot": 8,
+   "guardian-cli": 7,
+   "pentest-ai-agents": 6,
+   "apex": 4,
+   "scopeweaver": 4,
+   "pentestagent": 3,
+   "redcell": 3,
+   "AIDA": 2,
+   "DSH-selfbuilt": 2,
+   "echidna": 2,
+   "LuaN1aoAgent": 1,
+   "agent-zero": 1,
+   "vulnerator-ai": 1
+  }
+ },
+ "real_attack_traffic_validation": {
+  "requests": 142705,
+  "with_body": 0,
+  "with_ua": 139598,
+  "methods": {
+   "GET": 127567,
+   "POST": 14484,
+   "HEAD": 499,
+   "CONNECT": 6,
+   "PROPFIND": 71,
+   "OPTIONS": 12,
+   "ROAJ": 1,
+   "PUT": 47,
+   "PATCH": 6,
+   "DELETE": 12
+  },
+  "body_t1_total": 139,
+  "body_t1_hit_rules": 0,
+  "body_hits": [],
+  "ua_t1_hit_rules": 0,
+  "hdr_t1_hit_rules": 0,
+  "path_t1_hit_rules": 0
+ },
+ "background_traffic_validation": {
+  "dataset": "burpheart/Internet-background-noise",
+  "rows_total": 9905794,
+  "distinct_ips_total": 80987,
+  "distinct_uas": 80764,
+  "ip_hit_count_dist": {
+   "1": 31,
+   "2": 1
+  },
+  "t1_hit_count": 0,
+  "t1_hit_ids": []
+ },
+ "background_traffic_rule_hits": {
+  "IOC-203": {
+   "tier": "T3",
+   "framework": "deadend-cli",
+   "requests": 4456780,
+   "distinct_source_addresses": 135,
+   "indicator": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+  },
+  "IOC-243": {
+   "tier": "T3",
+   "framework": "Decepticon",
+   "requests": 4439847,
+   "distinct_source_addresses": 133,
+   "indicator": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  },
+  "IOC-401": {
+   "tier": "T3",
+   "framework": "pentestagent",
+   "requests": 4456780,
+   "distinct_source_addresses": 135,
+   "indicator": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+  },
+  "IOC-440": {
+   "tier": "T3",
+   "framework": "Pojun",
+   "requests": 4439847,
+   "distinct_source_addresses": 133,
+   "indicator": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+  },
+  "IOC-595": {
+   "tier": "T3",
+   "framework": "Zen-Ai-Pentest",
+   "requests": 4456780,
+   "distinct_source_addresses": 135,
+   "indicator": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.0"
+  },
+  "IOC-596": {
+   "tier": "T3",
+   "framework": "Zen-Ai-Pentest",
+   "requests": 4456780,
+   "distinct_source_addresses": 135,
+   "indicator": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+  },
+  "IOC-244": {
+   "tier": "T3",
+   "framework": "Decepticon",
+   "requests": 110808,
+   "distinct_source_addresses": 61,
+   "indicator": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  },
+  "IOC-045": {
+   "tier": "T3",
+   "framework": "airecon",
+   "requests": 8853,
+   "distinct_source_addresses": 8,
+   "indicator": "Python/3"
+  },
+  "IOC-132": {
+   "tier": "T3",
+   "framework": "cyber-harness",
+   "requests": 170,
+   "distinct_source_addresses": 4,
+   "indicator": "cyber"
+  },
+  "IOC-245": {
+   "tier": "T3",
+   "framework": "Decepticon",
+   "requests": 4,
+   "distinct_source_addresses": 1,
+   "indicator": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+  },
+  "IOC-317": {
+   "tier": "T3",
+   "framework": "LuaN1aoAgent",
+   "requests": 8156,
+   "distinct_source_addresses": 6,
+   "indicator": null
+  },
+  "IOC-175": {
+   "tier": "T3",
+   "framework": "CyberStrikeAI",
+   "requests": 1101,
+   "distinct_source_addresses": 1,
+   "indicator": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+  },
+  "IOC-499": {
+   "tier": "T2",
+   "framework": "sapper-v2",
+   "requests": 40,
+   "distinct_source_addresses": 28,
+   "indicator": "package.json"
+  },
+  "IOC-465": {
+   "tier": "T2",
+   "framework": "raptor",
+   "requests": 8,
+   "distinct_source_addresses": 3,
+   "indicator": "actuator/heapdump"
+  },
+  "IOC-180": {
+   "tier": "T2",
+   "framework": "CyberStrikeAI",
+   "requests": 22,
+   "distinct_source_addresses": 1,
+   "indicator": "metadata.google.internal / 100.100.100.200 / 169.254.169.254/latest/meta-data/iam/"
+  },
+  "IOC-398": {
+   "tier": "T2",
+   "framework": "Pentest-Swarm-AI",
+   "requests": 22,
+   "distinct_source_addresses": 1,
+   "indicator": "http://169.254.169.254/latest/meta-data"
+  }
+ },
+ "background_traffic_rule_hits_note": "Indicators that contain characters outside the ASCII range are published without their literal text; the rule id, tier, framework and counts are still given."
+}

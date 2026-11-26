@@ -1,0 +1,49 @@
+{
+ "threshold": 0.35,
+ "window_minutes": 10,
+ "buckets": {
+  "N1 honeypot, per-IP": {
+   "source": "N1 honeypot",
+   "split": "per-IP",
+   "n": 91,
+   "att": 4,
+   "fp": 0
+  },
+  "N1 honeypot, per-IP+window": {
+   "source": "N1 honeypot",
+   "split": "per-IP plus 10 minute window",
+   "n": 80,
+   "att": 2,
+   "fp": 0
+  },
+  "N2 WAF-hit, per-IP": {
+   "source": "N2 WAF-hit",
+   "split": "per-IP",
+   "n": 2794,
+   "att": 1582,
+   "fp": 43
+  },
+  "N2 WAF-hit, per-IP+window": {
+   "source": "N2 WAF-hit",
+   "split": "per-IP plus 10 minute window",
+   "n": 2027,
+   "att": 1780,
+   "fp": 31
+  },
+  "N3 scanner, per-IP": {
+   "source": "N3 scanner",
+   "split": "per-IP",
+   "n": 8,
+   "att": 6,
+   "fp": 4
+  },
+  "N3 scanner, per-IP+window": {
+   "source": "N3 scanner",
+   "split": "per-IP plus 10 minute window",
+   "n": 10,
+   "att": 7,
+   "fp": 4
+  }
+ },
+ "class_definition": "attacker class = actors whose user-agent blob is classified browser or tool; crawler and no-user-agent actors are reported separately because their false-positive rate is markedly higher."
+}

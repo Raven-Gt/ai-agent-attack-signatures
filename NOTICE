@@ -1,0 +1,61 @@
+Third-Party Notices
+====================
+
+This repository contains traffic-signature rules derived from the source code of
+third-party AI pentest frameworks, collected for defensive security research.
+
+Signature material derived from copyleft-licensed upstream projects is isolated under
+`signatures/agpl/` and is licensed under the terms of the corresponding upstream license.
+The remaining contents of this repository are MIT licensed (see `LICENSE`).
+
+Upstream frameworks under copyleft terms
+--------------------------------------
+
+Each entry below contributed at least one signature whose verbatim source literal is
+reproduced in `signatures/agpl/`. The corresponding files in that directory are
+licensed under the stated terms; per-file provenance (upstream repository, file path,
+line number) is recorded in the `source` field of each rule.
+
+| Framework | Upstream license |
+|---|---|
+| AIDA | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| antifox | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| aracne | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| artex | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| ARTEX-main | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| Cairn | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| cyber-harness | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| CyberStrike | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| Dark-Moon | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| deadend-cli | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| forang | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| HackSynth | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| LuaN1aoAgent | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| numasec | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| Pentest-Swarm-AI | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| Pojun | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| sage | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| scopeweaver | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| shannon | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| T3MP3ST | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+| ycode-auto-pentest | AGPL-3.0 / GPL / LGPL as indicated in the rule's `license` field |
+
+Upstream frameworks under permissive terms
+---------------------------------------
+
+MIT (28), Apache-2.0 (11), BSD (1) and other permissive frameworks (2) contributed the
+remaining signatures, which are MIT licensed together with the rest of the repository.
+Provenance for every rule is recorded in the `source` field.
+
+Trademark and attribution
+-----------------------
+
+Product names, logos and framework names referenced in this repository are the property
+of their respective owners and are used for identification and research attribution only.
+Endorsement is not implied.
+
+Authorisations
+--------------
+
+Permission to publish signature material derived from the audited frameworks was
+obtained from their respective maintainers.

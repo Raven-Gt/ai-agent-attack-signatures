@@ -1,0 +1,117 @@
+{
+ "description": "Leave-one-framework-out: for each held-out framework the decision threshold is calibrated on the remaining frameworks and then applied to the held-out one.",
+ "folds": 10,
+ "folds_note": "The number of folds is the number of frameworks, not the number of actor captures; the generalisation strength is 0.05^(1/k) in k, the framework count.",
+ "results": [
+  {
+   "holdout": "ARTEX",
+   "n_test": 1,
+   "tau": 0.2799999999999999,
+   "tp": 1,
+   "recall": 1.0,
+   "fp": 0,
+   "n_neg": 56,
+   "fpr": 0.0,
+   "fp_wilson95": 0.06419614448811528
+  },
+  {
+   "holdout": "AntiFox",
+   "n_test": 1,
+   "tau": 0.2799999999999999,
+   "tp": 1,
+   "recall": 1.0,
+   "fp": 0,
+   "n_neg": 56,
+   "fpr": 0.0,
+   "fp_wilson95": 0.06419614448811528
+  },
+  {
+   "holdout": "AutoPT",
+   "n_test": 1,
+   "tau": 0.2799999999999999,
+   "tp": 1,
+   "recall": 1.0,
+   "fp": 0,
+   "n_neg": 56,
+   "fpr": 0.0,
+   "fp_wilson95": 0.06419614448811528
+  },
+  {
+   "holdout": "CyberStrikeAI",
+   "n_test": 1,
+   "tau": 0.2799999999999999,
+   "tp": 1,
+   "recall": 1.0,
+   "fp": 0,
+   "n_neg": 56,
+   "fpr": 0.0,
+   "fp_wilson95": 0.06419614448811528
+  },
+  {
+   "holdout": "DSH",
+   "n_test": 3,
+   "tau": 0.2799999999999999,
+   "tp": 3,
+   "recall": 1.0,
+   "fp": 0,
+   "n_neg": 56,
+   "fpr": 0.0,
+   "fp_wilson95": 0.06419614448811528
+  },
+  {
+   "holdout": "PentAGI",
+   "n_test": 2,
+   "tau": 0.2799999999999999,
+   "tp": 2,
+   "recall": 1.0,
+   "fp": 0,
+   "n_neg": 56,
+   "fpr": 0.0,
+   "fp_wilson95": 0.06419614448811528
+  },
+  {
+   "holdout": "PentesterFlow",
+   "n_test": 1,
+   "tau": 0.2799999999999999,
+   "tp": 1,
+   "recall": 1.0,
+   "fp": 0,
+   "n_neg": 56,
+   "fpr": 0.0,
+   "fp_wilson95": 0.06419614448811528
+  },
+  {
+   "holdout": "hackingBuddyGPT",
+   "n_test": 1,
+   "tau": 0.41455359999999997,
+   "tp": 0,
+   "recall": 0.0,
+   "fp": 0,
+   "n_neg": 56,
+   "fpr": 0.0,
+   "fp_wilson95": 0.06419614448811528
+  },
+  {
+   "holdout": "strix",
+   "n_test": 1,
+   "tau": 0.2799999999999999,
+   "tp": 1,
+   "recall": 1.0,
+   "fp": 0,
+   "n_neg": 56,
+   "fpr": 0.0,
+   "fp_wilson95": 0.06419614448811528
+  },
+  {
+   "holdout": "xalgorix",
+   "n_test": 1,
+   "tau": 0.2799999999999999,
+   "tp": 1,
+   "recall": 1.0,
+   "fp": 0,
+   "n_neg": 56,
+   "fpr": 0.0,
+   "fp_wilson95": 0.06419614448811528
+  }
+ ]
+}

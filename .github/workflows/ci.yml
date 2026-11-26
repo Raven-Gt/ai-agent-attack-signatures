@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  signatures:
+    name: Signature lint and platform consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r research/requirements.txt
+
+      # Every rule of both licensed subsets must compile as a Python regular
+      # expression, no deployed expression may contain \s (Lucene and KQL have
+      # no \s operator), and the rule count of every platform file must equal
+      # the number of rules of the subset that the platform can express.
+      - name: Lint the rule sets and check the platform files
+        run: |
+          python -m research.ci.check_signatures \
+            --rules signatures/rules.json \
+            --platform-dir signatures \
+            --agpl-rules signatures/agpl/rules-agpl.json \
+            --agpl-dir signatures/agpl
+
+      # Self-tests over the combined rule set (MIT plus copyleft derived):
+      # a synthetic benign browser request must match zero tier-1 rules, a
+      # synthetic request carrying a known tier-1 literal must match that rule,
+      # and the published scanner captures must stay clean.
+      - name: Signature self-tests
+        run: python -m research.ci.selftest_rules
+
+      - name: Unit tests
+        run: python -m pytest research/tests -q
+
+      # The published code, workflows and templates are kept in ASCII so that
+      # the repository stays readable in every environment.
+      - name: Check that the sources are ASCII only
+        run: |
+          python - <<'PY'
+          import pathlib, sys
+          roots = ["research", ".github"]
+          bad = []
+          for root in roots:
+              for path in pathlib.Path(root).rglob("*"):
+                  if not path.is_file() or path.suffix not in (".py", ".md", ".yml", ".yaml", ".txt"):
+                      continue
+                  data = path.read_bytes()
+                  if any(b > 127 for b in data):
+                      bad.append(str(path))
+          if bad:
+              print("non-ASCII content in: " + ", ".join(bad))
+              sys.exit(1)
+          print("all sources are ASCII only")
+          PY
+
+  evaluation:
+    name: Headline numbers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r research/requirements.txt
+
+      # Every number quoted in the repository README is recomputed here from
+      # the artifacts that ship with the repository.  The expected values are
+      # read out of the README at run time, so the documentation and the data
+      # can never drift apart.
+      - name: Recompute the documented headline numbers
+        run: python -m research.ci.check_headline_numbers --readme README.md
+
+      - name: Run the evaluation scripts
+        run: |
+          python -m research.evaluation.evaluate_detection --threshold 0.35
+          python -m research.evaluation.false_positive_eval --threshold 0.35
+          python -m research.evaluation.lofo
+          python -m research.evaluation.family_ablation --threshold 0.35
+          python -m research.evaluation.threshold_sweep
+
+      # Smoke test of the pipeline on the smallest published capture.
+      - name: Score one published capture
+        run: |
+          python -m research.pipeline.actor_segmentation \
+            --input data/positive/xalgorix-1/access.jsonl \
+            --out out/actors.jsonl
+          python -m research.pipeline.score_actor --actors out/actors.jsonl --out out/scores.jsonl

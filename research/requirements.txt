@@ -1,0 +1,14 @@
+# Runtime dependencies of the research pipeline.
+#
+# The pipeline itself (research/engine, research/pipeline, research/evaluation,
+# research/ci) is written against the Python standard library only, so every
+# script runs with nothing installed.  SciPy is used, when present, for the
+# Beta quantiles behind the Clopper-Pearson and Jeffreys intervals; the
+# repository also ships a pure-python implementation of the same intervals,
+# which is used automatically when SciPy is absent and agrees with SciPy to
+# 1e-12.
+#
+# The test suite additionally needs pytest.
+scipy==1.17.1
+numpy==2.4.3
+pytest==9.1.1

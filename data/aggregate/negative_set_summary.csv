@@ -1,0 +1,7 @@
+negative_source_and_split,negative_source,actor_split,actors,attacker_class_actors,false_positives,false_positive_rate,threshold,window_minutes
+"N1 honeypot, per-IP",N1 honeypot,per-IP,91,4,0,0.0,0.35,10
+"N1 honeypot, per-IP+window",N1 honeypot,per-IP plus 10 minute window,80,2,0,0.0,0.35,10
+"N2 WAF-hit, per-IP",N2 WAF-hit,per-IP,2794,1582,43,0.02718078381795196,0.35,10
+"N2 WAF-hit, per-IP+window",N2 WAF-hit,per-IP plus 10 minute window,2027,1780,31,0.01741573033707865,0.35,10
+"N3 scanner, per-IP",N3 scanner,per-IP,8,6,4,0.6666666666666666,0.35,10
+"N3 scanner, per-IP+window",N3 scanner,per-IP plus 10 minute window,10,7,4,0.5714285714285714,0.35,10

@@ -1,0 +1,567 @@
+{
+ "description": "Feature vector definition for the pseudonymised real-attacker actor set. The names are the exact keys produced by the project's feature extractor; the values are the extracted numeric values.",
+ "feature_count": 103,
+ "families": {
+  "F1": {
+   "key": "F1_semantic_causality",
+   "description": "Semantic causality: does the next action depend on the previous response?"
+  },
+  "F3": {
+   "key": "F3_feedback_adaptivity",
+   "description": "Feedback adaptivity: does the actor change route after an error response?"
+  },
+  "F4": {
+   "key": "F4_rhythm",
+   "description": "Rhythm: machine burst speed combined with human-scale thinking pauses."
+  },
+  "F5": {
+   "key": "F5_exploration",
+   "description": "Exploration structure: breadth, depth, entropy, error tolerance, discovery rate."
+  },
+  "F6": {
+   "key": "F6_repetition_verify",
+   "description": "Repetition and verification: enumeration intensity, retry breadth, back-tracking."
+  },
+  "F7": {
+   "key": "F7_identity",
+   "description": "Identity lineage: identity count, unauthenticated share, identity churn, role."
+  },
+  "F8": {
+   "key": "F8_egress_intel",
+   "description": "Egress intelligence: outbound destinations observed during the attack window."
+  },
+  "F9": {
+   "key": "F9_tool_fingerprint",
+   "description": "Tool fingerprint: user-agent families and switching (context only, not a main-score input)."
+  },
+  "F10": {
+   "key": "F10_machine_identity",
+   "description": "Machine-generated account naming: structural regularity of registered account names."
+  },
+  "F11": {
+   "key": "F11_payload_semantics",
+   "description": "Payload semantics: maliciousness axis, orthogonal to the AI axis."
+  },
+  "F13": {
+   "key": "F13_config_probe",
+   "description": "Configuration-probe axis: share of configuration/management paths and API paths."
+  }
+ },
+ "features": {
+  "f1_identity_switches": {
+   "family": "F1",
+   "family_key": "F1_semantic_causality",
+   "description": "Number of consecutive request pairs whose authenticated identity differs."
+  },
+  "f1_identity_switch_rate": {
+   "family": "F1",
+   "family_key": "F1_semantic_causality",
+   "description": "Identity switches divided by the number of requests."
+  },
+  "f1_real_switches": {
+   "family": "F1",
+   "family_key": "F1_semantic_causality",
+   "description": "Identity switches between two authenticated (non-anonymous) identities."
+  },
+  "f1_response_capture": {
+   "family": "F1",
+   "family_key": "F1_semantic_causality",
+   "description": "1 when response headers or response bodies were captured, 0 otherwise (0 in this release)."
+  },
+  "f1_token_carry_hits": {
+   "family": "F1",
+   "family_key": "F1_semantic_causality",
+   "description": "Requests that carry a token issued in a previous response (0 when no response capture)."
+  },
+  "f1_token_carry_ratio": {
+   "family": "F1",
+   "family_key": "F1_semantic_causality",
+   "description": "Token-carrying requests divided by the number of responses examined."
+  },
+  "f1_hint_follow_hits": {
+   "family": "F1",
+   "family_key": "F1_semantic_causality",
+   "description": "Requests that follow a path hint taken from a previous response body."
+  },
+  "f3_err_count": {
+   "family": "F3",
+   "family_key": "F3_feedback_adaptivity",
+   "description": "Number of requests answered with a 4xx or 5xx status."
+  },
+  "f3_err_new_family": {
+   "family": "F3",
+   "family_key": "F3_feedback_adaptivity",
+   "description": "Share of error responses that are followed by a request in a different endpoint family."
+  },
+  "f3_err_new_template": {
+   "family": "F3",
+   "family_key": "F3_feedback_adaptivity",
+   "description": "Share of error responses that are followed by a request on a different path template."
+  },
+  "f3_err_same_template": {
+   "family": "F3",
+   "family_key": "F3_feedback_adaptivity",
+   "description": "Share of error responses that are followed by a request on the same path template."
+  },
+  "f3_err_to_2xx_k3": {
+   "family": "F3",
+   "family_key": "F3_feedback_adaptivity",
+   "description": "Share of error responses within three requests of a 2xx response."
+  },
+  "f3_distinct_err_families": {
+   "family": "F3",
+   "family_key": "F3_feedback_adaptivity",
+   "description": "Number of distinct endpoint families that produced an error response."
+  },
+  "f3_family_prune": {
+   "family": "F3",
+   "family_key": "F3_feedback_adaptivity",
+   "description": "Share of repeatedly failing endpoint families that are effectively abandoned afterwards."
+  },
+  "f3_404_tolerance": {
+   "family": "F3",
+   "family_key": "F3_feedback_adaptivity",
+   "description": "Share of 404 responses after which the actor keeps sending requests."
+  },
+  "f3_403_tolerance": {
+   "family": "F3",
+   "family_key": "F3_feedback_adaptivity",
+   "description": "Share of 403 responses after which the actor keeps sending requests."
+  },
+  "f4_req_count": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Number of requests in the actor window."
+  },
+  "f4_gap_cv": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Coefficient of variation of the inter-request gaps."
+  },
+  "f4_gap_median": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Median inter-request gap in seconds."
+  },
+  "f4_gap_p90": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "90th percentile inter-request gap in seconds."
+  },
+  "f4_gap_max": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Maximum inter-request gap in seconds."
+  },
+  "f4_zero_gap_ratio": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Share of inter-request gaps that are zero or negative (concurrent bursts)."
+  },
+  "f4_bimodality": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Bimodality coefficient of the log10 gap distribution."
+  },
+  "f4_burst_max_1s": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Largest number of requests issued inside a one-second window."
+  },
+  "f4_burst_max_10s": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Largest number of requests issued inside a ten-second window."
+  },
+  "f4_burst_ratio": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Share of gaps of one second or less."
+  },
+  "f4_think_ratio": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Share of gaps longer than one second."
+  },
+  "f4_think_cv": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Coefficient of variation of the gaps longer than one second."
+  },
+  "f4_think_median": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Median of the gaps longer than one second, in seconds."
+  },
+  "f4_think_max": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Longest gap longer than one second, in seconds."
+  },
+  "f4_machine_speed": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Alias of f4_burst_ratio (machine-speed component of the compound feature)."
+  },
+  "f4_machine_x_think": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Product of f4_burst_ratio and f4_think_ratio (machine speed times human-scale thinking)."
+  },
+  "f4_gap_log_entropy": {
+   "family": "F4",
+   "family_key": "F4_rhythm",
+   "description": "Shannon entropy of the rounded log10 gap distribution."
+  },
+  "f5_distinct_templates": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Number of distinct normalised path templates."
+  },
+  "f5_template_entropy": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Shannon entropy of the path-template distribution."
+  },
+  "f5_family_count": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Number of distinct endpoint families."
+  },
+  "f5_family_entropy": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Shannon entropy of the endpoint-family distribution."
+  },
+  "f5_depth_max": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Maximum number of path segments in any requested path."
+  },
+  "f5_status_entropy": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Shannon entropy of the status-class distribution."
+  },
+  "f5_404_ratio": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Share of requests answered with a 4xx status."
+  },
+  "f5_5xx_ratio": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Share of requests answered with a 5xx status."
+  },
+  "f5_2xx_ratio": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Share of requests answered with a 2xx status."
+  },
+  "f5_401_ratio": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Share of requests answered with 401."
+  },
+  "f5_403_ratio": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Share of requests answered with 403."
+  },
+  "f5_500_as_signal": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Share of requests answered with 500."
+  },
+  "f5_duration_s": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Elapsed time between the first and the last request of the window, in seconds."
+  },
+  "f5_rpm": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Requests per minute over the window."
+  },
+  "f5_static_ratio": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Share of requests targeting static-asset extensions."
+  },
+  "f5_discovery_rate": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Distinct path templates per hundred requests."
+  },
+  "f5_method_count": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Number of distinct HTTP methods used."
+  },
+  "f5_body_ratio": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Share of requests that carry a request body."
+  },
+  "f5_arg_ratio": {
+   "family": "F5",
+   "family_key": "F5_exploration",
+   "description": "Share of requests that carry a query string."
+  },
+  "f6_retry_templates": {
+   "family": "F6",
+   "family_key": "F6_repetition_verify",
+   "description": "Number of path templates requested more than once."
+  },
+  "f6_retry_ratio": {
+   "family": "F6",
+   "family_key": "F6_repetition_verify",
+   "description": "Share of path templates requested more than once."
+  },
+  "f6_repeat_request_ratio": {
+   "family": "F6",
+   "family_key": "F6_repetition_verify",
+   "description": "Share of requests that are repeats of an already seen path template."
+  },
+  "f6_enum_max_ids": {
+   "family": "F6",
+   "family_key": "F6_repetition_verify",
+   "description": "Largest number of distinct numeric identifiers seen under a single path template."
+  },
+  "f6_enum_templates": {
+   "family": "F6",
+   "family_key": "F6_repetition_verify",
+   "description": "Number of path templates under which more than one numeric identifier was tried."
+  },
+  "f6_verify_backtrack": {
+   "family": "F6",
+   "family_key": "F6_repetition_verify",
+   "description": "Share of 2xx responses that are followed within seven requests by a repeat of the same template."
+  },
+  "f6_arg_variant_max": {
+   "family": "F6",
+   "family_key": "F6_repetition_verify",
+   "description": "Largest number of distinct query strings seen under a single path template."
+  },
+  "f6_top_repeat": {
+   "family": "F6",
+   "family_key": "F6_repetition_verify",
+   "description": "Largest number of requests issued against a single path template."
+  },
+  "f7_distinct_users": {
+   "family": "F7",
+   "family_key": "F7_identity",
+   "description": "Number of distinct authenticated identities used in the window."
+  },
+  "f7_distinct_roles": {
+   "family": "F7",
+   "family_key": "F7_identity",
+   "description": "Number of distinct roles observed."
+  },
+  "f7_unauth_ratio": {
+   "family": "F7",
+   "family_key": "F7_identity",
+   "description": "Share of requests with no authenticated identity."
+  },
+  "f7_identity_churn": {
+   "family": "F7",
+   "family_key": "F7_identity",
+   "description": "Distinct identities per minute of activity."
+  },
+  "f7_users_per_100req": {
+   "family": "F7",
+   "family_key": "F7_identity",
+   "description": "Distinct identities per hundred requests."
+  },
+  "f7_first_auth_latency": {
+   "family": "F7",
+   "family_key": "F7_identity",
+   "description": "Index of the first authenticated request (window length when never authenticated)."
+  },
+  "f7_never_auth": {
+   "family": "F7",
+   "family_key": "F7_identity",
+   "description": "1 when the actor never authenticates, 0 otherwise."
+  },
+  "f7_admin_role_ratio": {
+   "family": "F7",
+   "family_key": "F7_identity",
+   "description": "Share of observed roles whose name contains an administrative marker."
+  },
+  "f8_egress_total": {
+   "family": "F8",
+   "family_key": "F8_egress_intel",
+   "description": "Total number of outbound attempts recorded in the window (0 in this release: no egress log)."
+  },
+  "f8_egress_distinct": {
+   "family": "F8",
+   "family_key": "F8_egress_intel",
+   "description": "Number of distinct outbound destinations (0 in this release)."
+  },
+  "f8_egress_codehost": {
+   "family": "F8",
+   "family_key": "F8_egress_intel",
+   "description": "Outbound attempts to code-hosting domains (0 in this release)."
+  },
+  "f8_egress_cdn": {
+   "family": "F8",
+   "family_key": "F8_egress_intel",
+   "description": "Outbound attempts to CDN domains (0 in this release)."
+  },
+  "f8_egress_llm_api": {
+   "family": "F8",
+   "family_key": "F8_egress_intel",
+   "description": "Outbound attempts to language-model API endpoints (0 in this release)."
+  },
+  "f8_egress_metadata": {
+   "family": "F8",
+   "family_key": "F8_egress_intel",
+   "description": "Outbound attempts to the cloud metadata address (0 in this release)."
+  },
+  "f8_egress_per_min": {
+   "family": "F8",
+   "family_key": "F8_egress_intel",
+   "description": "Outbound attempts inside the request window per minute (0 in this release)."
+  },
+  "f8_egress_in_window": {
+   "family": "F8",
+   "family_key": "F8_egress_intel",
+   "description": "Outbound attempts within 60 seconds of a request in the window (0 in this release)."
+  },
+  "f9_ua_families": {
+   "family": "F9",
+   "family_key": "F9_tool_fingerprint",
+   "description": "Number of distinct user-agent families used."
+  },
+  "f9_ua_entropy": {
+   "family": "F9",
+   "family_key": "F9_tool_fingerprint",
+   "description": "Shannon entropy of the user-agent family distribution."
+  },
+  "f9_ua_switches": {
+   "family": "F9",
+   "family_key": "F9_tool_fingerprint",
+   "description": "Number of consecutive request pairs whose user-agent family differs."
+  },
+  "f9_ua_switch_rate": {
+   "family": "F9",
+   "family_key": "F9_tool_fingerprint",
+   "description": "User-agent family switches divided by the number of requests."
+  },
+  "f9_has_browser": {
+   "family": "F9",
+   "family_key": "F9_tool_fingerprint",
+   "description": "1 when a browser-like user agent is present."
+  },
+  "f9_has_scanner": {
+   "family": "F9",
+   "family_key": "F9_tool_fingerprint",
+   "description": "1 when a scanner-like user agent is present."
+  },
+  "f9_noncurl_ratio": {
+   "family": "F9",
+   "family_key": "F9_tool_fingerprint",
+   "description": "Share of requests that do not use the curl user agent."
+  },
+  "f9_ua_block_ratio": {
+   "family": "F9",
+   "family_key": "F9_tool_fingerprint",
+   "description": "Ratio of distinct user-agent families minus one to the number of distinct families."
+  },
+  "f10_user_count": {
+   "family": "F10",
+   "family_key": "F10_machine_identity",
+   "description": "Number of distinct registered account names observed."
+  },
+  "f10_machine_named_ratio": {
+   "family": "F10",
+   "family_key": "F10_machine_identity",
+   "description": "Share of account names whose local part follows a machine-generated structure."
+  },
+  "f10_ts_suffix_ratio": {
+   "family": "F10",
+   "family_key": "F10_machine_identity",
+   "description": "Share of account names whose local part ends with a 10 to 13 digit timestamp."
+  },
+  "f10_dot_label_ratio": {
+   "family": "F10",
+   "family_key": "F10_machine_identity",
+   "description": "Share of account names whose local part contains at least two dot-separated labels."
+  },
+  "f10_label_entropy": {
+   "family": "F10",
+   "family_key": "F10_machine_identity",
+   "description": "Shannon entropy of the dot-separated label distribution of account names."
+  },
+  "f10_seq_suffix_ratio": {
+   "family": "F10",
+   "family_key": "F10_machine_identity",
+   "description": "Share of account names whose local part ends with a one to three digit sequence."
+  },
+  "f11_payload_total": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Total number of matched attack-payload patterns across all requests."
+  },
+  "f11_payload_kinds": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Number of distinct attack-payload pattern classes matched."
+  },
+  "f11_payload_density": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Matched payload patterns per request."
+  },
+  "f11_pay_sqli": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Number of SQL-injection payload matches."
+  },
+  "f11_pay_xss": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Number of cross-site-scripting payload matches."
+  },
+  "f11_pay_ssrf": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Number of server-side-request-forgery payload matches."
+  },
+  "f11_pay_path_traversal": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Number of path-traversal payload matches."
+  },
+  "f11_pay_cmd_injection": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Number of command-injection payload matches."
+  },
+  "f11_pay_jwt_tamper": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Number of token-tampering payload matches."
+  },
+  "f11_pay_mass_assignment": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Number of mass-assignment payload matches."
+  },
+  "f11_pay_nosql": {
+   "family": "F11",
+   "family_key": "F11_payload_semantics",
+   "description": "Number of NoSQL-injection payload matches."
+  },
+  "f13_config_ratio": {
+   "family": "F13",
+   "family_key": "F13_config_probe",
+   "description": "Share of requests targeting configuration, credential or management paths."
+  },
+  "f13_api_ratio": {
+   "family": "F13",
+   "family_key": "F13_config_probe",
+   "description": "Share of requests targeting paths that contain an API segment."
+  }
+ }
+}

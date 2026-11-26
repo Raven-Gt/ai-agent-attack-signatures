@@ -1,0 +1,161 @@
+{
+ "decision_threshold": 0.35,
+ "actor_captures": 15,
+ "frameworks": 12,
+ "frameworks_detected_at_threshold": 10,
+ "framework_level_single_sided_95_lower_bound": 0.7790778080544442,
+ "framework_level_bound_formula": "0.05^(1/k) with k = number of frameworks",
+ "note": "The lower bound is the strength of the generalisation claim 'all k frameworks are detected'. Adding framework captures raises it; adding more captures of an already seen framework does not.",
+ "per_actor": [
+  {
+   "actor_id": "DSH-1",
+   "framework": "DSH",
+   "capture_label": "lab2",
+   "actor_requests": 1519,
+   "ai_score": 0.803012929527808,
+   "detected": "yes",
+   "fired_rules": "E1;E3;E4;E6;E7;E9;E11;E12",
+   "weights": "F10=0.2200;F3=0.2800;F5=0.3400;F6=0.2400;F7=0.2400;F9=0.1200"
+  },
+  {
+   "actor_id": "strix-1",
+   "framework": "strix",
+   "capture_label": "strix",
+   "actor_requests": 31024,
+   "ai_score": 0.79796197900288,
+   "detected": "yes",
+   "fired_rules": "E1;E3;E5;E6;E7;E9;E11;E12",
+   "weights": "F3=0.4800;F5=0.3400;F6=0.2400;F7=0.2400;F9=0.1200"
+  },
+  {
+   "actor_id": "DSH-2",
+   "framework": "DSH",
+   "capture_label": "lab3",
+   "actor_requests": 1273,
+   "ai_score": 0.78533460269056,
+   "detected": "yes",
+   "fired_rules": "E1;E2;E3;E6;E7;E9;E11;E12",
+   "weights": "F3=0.2800;F4=0.1500;F5=0.3400;F6=0.2400;F7=0.2400;F9=0.1200"
+  },
+  {
+   "actor_id": "PentAGI-2",
+   "framework": "PentAGI",
+   "capture_label": "lab6",
+   "actor_requests": 384,
+   "ai_score": 0.7740364238848,
+   "detected": "yes",
+   "fired_rules": "E1;E2;E5;E6;E7;E9;E11;E12",
+   "weights": "F3=0.4800;F4=0.1500;F5=0.3400;F6=0.2400;F9=0.1200"
+  },
+  {
+   "actor_id": "DSH-3",
+   "framework": "DSH",
+   "capture_label": "lab4",
+   "actor_requests": 838,
+   "ai_score": 0.7474524737536,
+   "detected": "yes",
+   "fired_rules": "E1;E3;E6;E7;E9;E11;E12",
+   "weights": "F3=0.2800;F5=0.3400;F6=0.2400;F7=0.2400;F9=0.1200"
+  },
+  {
+   "actor_id": "PentAGI-1",
+   "framework": "PentAGI",
+   "capture_label": "lab5",
+   "actor_requests": 1512,
+   "ai_score": 0.734160498688,
+   "detected": "yes",
+   "fired_rules": "E1;E5;E6;E7;E9;E11;E12",
+   "weights": "F3=0.4800;F5=0.3400;F6=0.2400;F9=0.1200"
+  },
+  {
+   "actor_id": "CyberStrikeAI-1",
+   "framework": "CyberStrikeAI",
+   "capture_label": "csai",
+   "actor_requests": 85,
+   "ai_score": 0.65763094528,
+   "detected": "yes",
+   "fired_rules": "E2;E5;E6;E7;E9;E11;E12",
+   "weights": "F3=0.4800;F4=0.1500;F6=0.2400;F9=0.1200"
+  },
+  {
+   "actor_id": "AntiFox-1",
+   "framework": "AntiFox",
+   "capture_label": "antifox",
+   "actor_requests": 2713,
+   "ai_score": 0.6173522329600001,
+   "detected": "yes",
+   "fired_rules": "E3;E6;E7;E9;E11;E12",
+   "weights": "F3=0.2800;F6=0.2400;F7=0.2400;F9=0.1200"
+  },
+  {
+   "actor_id": "ARTEX-1",
+   "framework": "ARTEX",
+   "capture_label": "artex",
+   "actor_requests": 2006,
+   "ai_score": 0.6173522329600001,
+   "detected": "yes",
+   "fired_rules": "E3;E6;E7;E9;E11;E12",
+   "weights": "F3=0.2800;F6=0.2400;F7=0.2400;F9=0.1200"
+  },
+  {
+   "actor_id": "xalgorix-1",
+   "framework": "xalgorix",
+   "capture_label": "xalgorix",
+   "actor_requests": 47,
+   "ai_score": 0.5403519999999999,
+   "detected": "yes",
+   "fired_rules": "E3;E5;E6;E12",
+   "weights": "F3=0.3600;F6=0.1000;F7=0.2400"
+  },
+  {
+   "actor_id": "PentesterFlow-1",
+   "framework": "PentesterFlow",
+   "capture_label": "lab7",
+   "actor_requests": 767,
+   "ai_score": 0.5058784000000001,
+   "detected": "yes",
+   "fired_rules": "E3;E6;E7;E12",
+   "weights": "F3=0.1600;F6=0.2400;F7=0.2400"
+  },
+  {
+   "actor_id": "raptor-1",
+   "framework": "raptor",
+   "capture_label": "raptor",
+   "actor_requests": 1252,
+   "ai_score": 0.4278592,
+   "detected": "yes",
+   "fired_rules": "E6;E7;E11;E12",
+   "weights": "F3=0.2800;F6=0.2400"
+  },
+  {
+   "actor_id": "AutoPT-1",
+   "framework": "AutoPT",
+   "capture_label": "autopt",
+   "actor_requests": 4530,
+   "ai_score": 0.41455359999999997,
+   "detected": "yes",
+   "fired_rules": "E6;E9;E11;E12",
+   "weights": "F3=0.2800;F6=0.1000;F9=0.1200"
+  },
+  {
+   "actor_id": "hackingBuddyGPT-1",
+   "framework": "hackingBuddyGPT",
+   "capture_label": "hbgpt",
+   "actor_requests": 62,
+   "ai_score": 0.2799999999999999,
+   "detected": "no",
+   "fired_rules": "E5;E12",
+   "weights": "F3=0.2000;F6=0.1000"
+  },
+  {
+   "actor_id": "pentest-ai-1",
+   "framework": "pentest-ai",
+   "capture_label": "ptai",
+   "actor_requests": 6888,
+   "ai_score": 0.25,
+   "detected": "no",
+   "fired_rules": "E1;E5;E6;E7;E11;E12;E15",
+   "weights": "F3=0.4800;F5=0.3400;F6=0.2400"
+  }
+ ]
+}

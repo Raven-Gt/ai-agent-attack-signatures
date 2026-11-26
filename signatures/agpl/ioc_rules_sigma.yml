@@ -1,0 +1,53 @@
+# AI agent attack signatures (AGPL subset - see ../NOTICE and ../LICENSE)
+#
+# Tier legend:
+#   T1 = framework-exclusive and verified to have zero hits on real traffic - deploy these
+#   T2 = generic attack semantics (a human attacker sends the same thing) - attack evidence only
+#   T3 = generic tooling identifiers / over-broad / dead patterns - excluded from this file
+#
+# Decision unit is the actor (all requests from one source IP within a time window),
+# not the individual request.
+#
+# Full metadata (source file:line, usage, stability, traffic verdict) is in rules-agpl.json.
+#
+
+# [T1] CyberStrike | UA
+#   source: packages/cyberstrike/src/tool/webfetch.ts:71
+Image|contains|UserAgent: "cyberstrike"
+
+# [T1] CyberStrike | UA
+#   source: .cyberstrike/skill/WEB/OWASP_WSTG_4.2/wstg-sess-11/SKILL.md:61
+Image|contains|UserAgent: "DifferentDevice/1.0"
+
+# [T1] CyberStrike | UA
+#   source: .cyberstrike/skill/WEB/OWASP_WSTG_4.2/wstg-sess-09/SKILL.md:71
+Image|contains|UserAgent: "Different-Browser/1.0"
+
+# [T1] CyberStrike | UA
+#   source: .cyberstrike/skill/WEB/OWASP_WSTG_4.2/wstg-sess-09/SKILL.md:110
+Image|contains|UserAgent: "DifferentBrowser/1.0"
+
+# [T1] CyberStrike | UA
+#   source: .cyberstrike/skill/WEB/OWASP_WSTG_4.2/wstg-athn-10/SKILL.md:100
+Image|contains|UserAgent: "TargetApp/1.0 (iOS)"
+
+# [T1] CyberStrike | UA
+#   source: packages/rea/scripts/audit-website-links.py:79
+Image|contains|UserAgent: "REA-Website-Verifier/1.0 (+https://github.com/morluto/rea)"
+
+# [T1] numasec | UA
+#   source: packages/numasec/src/tool/appsec-probe.ts:218
+Image|contains|UserAgent: "numasec-appsec-probe/1.2"
+
+# [T1] numasec | UA
+#   source: packages/numasec/src/tool/webfetch.ts:99
+Image|contains|UserAgent: "numasec"
+
+# [T1] scopeweaver | UA
+#   source: enrich/enrich.go:241
+Image|contains|UserAgent: "artex-enrich/1.0"
+
+# [T1] shannon | UA
+#   source: apps/worker/src/services/preflight.ts:410
+Image|contains|UserAgent: "( ) HEAD User-Agent"
+
