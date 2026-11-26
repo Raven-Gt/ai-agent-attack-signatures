@@ -27,7 +27,7 @@ This repository therefore ships **both** the signatures that hold up under real 
 |---|---|
 | `signatures/` | The MIT-licensed subset: 444 rules (T1 194 / T2 97 / T3 153) in Elasticsearch KQL, Splunk SPL, Suricata and Sigma, plus the full metadata JSON |
 | `signatures/agpl/` | The copyleft-derived subset: 166 rules from AGPL/GPL upstream frameworks (T1 78), independently deployable, AGPL-3.0-or-later |
-| `docs/` | Methodology, experiment protocol, results, framework coverage matrix, limitations, threat model |
+| `docs/` | Methodology, experiment protocol, results, framework coverage matrix, limitations, threat model, **deployment guide** |
 | `data/` | 15 AI-agent attack captures (211,547 requests, 12 frameworks), 6 scanner hard-negative captures (999 requests), pseudonymised feature vectors for 1,582 real attackers (103 features each), 15 aggregate tables, checksums, dataset card |
 | `research/` | Reproducible pipeline and evaluation code |
 | `figures/` | 12 paper-grade figures (PNG + PDF/SVG) with a caption file carrying the headline number of each |
@@ -167,6 +167,22 @@ frameworks covered here, you know your own markers better than we do.
 
 You can also ask us to **remove** a signature for your framework; we will honour that.
 See `CONTRIBUTING.md`.
+
+## Project documents
+
+| Document | What it is for |
+|---|---|
+| [`docs/PAPER.md`](docs/PAPER.md) | The full paper |
+| [`docs/DEPLOY.md`](docs/DEPLOY.md) | How to load and validate the rules in production |
+| [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) | The detector: decision unit, features, evidence rules, algebra |
+| [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md) | The experimental protocol |
+| [`docs/RESULTS.md`](docs/RESULTS.md) | Every measured number |
+| [`docs/FRAMEWORK_COVERAGE.md`](docs/FRAMEWORK_COVERAGE.md) | Per-framework attribution matrix |
+| [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) | Where attribution provably fails |
+| [`docs/THREAT_MODEL.md`](docs/THREAT_MODEL.md) | Offensive risk of publishing this, and the maintenance model |
+| [`ROADMAP.md`](ROADMAP.md) | What is being worked on next |
+| [`CHANGELOG.md`](CHANGELOG.md) | Release history |
+| [`data/DATASET_CARD.md`](data/DATASET_CARD.md) | Dataset provenance, licensing and limitations |
 
 ## Citation
 
