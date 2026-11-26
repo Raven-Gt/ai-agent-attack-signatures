@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import matplotlib.patheffects as pe
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 
@@ -68,10 +69,12 @@ def figure7():
     ax.set_axisbelow(True)
     ax.set_title("Leave-one-framework-out recall (10 folds)", fontsize=12.5, loc="left", pad=10)
     bad = [r for r in res if r["tp"] == 0][0]
-    ax.annotate("hackingBuddyGPT fails: the threshold\n"
-                "calibrated on the other nine frameworks\n"
-                "(tau = 0.4146) is above its own score (0.280)",
-                xy=(0.02, y[0]), xytext=(0.16, 1.35), fontsize=10.5, color=INK,
+    ax.set_ylim(-2.1, len(res) - 0.4)
+    ax.annotate("hackingBuddyGPT fails: the threshold calibrated on the other nine\n"
+                "frameworks (tau = 0.4146) is above its own score (0.280), so the\n"
+                "held-out framework is never flagged",
+                xy=(0.05, -0.45), xytext=(0.02, -1.25), fontsize=10.5, color=INK,
+                va="center", ha="left",
                 arrowprops=dict(arrowstyle="->", color=RED, linewidth=1.4))
 
     ax2 = fig.add_subplot(gs[0, 1])
@@ -80,8 +83,8 @@ def figure7():
     ax2.plot(ks, lbs, "-o", color=BLUE, markersize=4.5)
     ax2.axhline(lbs[9], color=INK, linestyle=":", linewidth=1.3)
     ax2.plot([10], [lbs[9]], "o", color=TEAL, markersize=9, zorder=5)
-    ax2.annotate("k = 10 folds\n0.05^(1/10) = 0.741", xy=(10, lbs[9]), xytext=(10.4, 0.30),
-                 fontsize=10.5, color=INK,
+    ax2.annotate("k = 10 folds\n0.05^(1/10) = 0.741", xy=(10, lbs[9]), xytext=(2.6, 0.86),
+                 fontsize=10.5, color=INK, ha="left", va="center",
                  arrowprops=dict(arrowstyle="->", color=TEAL, linewidth=1.3))
     ax2.plot([12], [lbs[11]], "o", color=RED, markersize=9, zorder=5)
     ax2.annotate("k = 12 frameworks\n0.05^(1/12) = 0.779", xy=(12, lbs[11]), xytext=(12.3, 0.90),
@@ -116,23 +119,29 @@ def figure8():
     items = sorted(hits.items(), key=lambda kv: kv[1]["requests"])
     tier_color = {"T2": AMBER, "T3": GREY}
 
-    fig = plt.figure(figsize=(15.0, 8.2))
-    gs = fig.add_gridspec(2, 2, width_ratios=[2.35, 1.0], height_ratios=[1.0, 1.0],
-                          left=0.215, right=0.975, top=0.855, bottom=0.10,
-                          wspace=0.26, hspace=0.45)
+    fig = plt.figure(figsize=(15.0, 8.4))
+    gs = fig.add_gridspec(2, 2, width_ratios=[2.35, 1.0], height_ratios=[0.88, 1.12],
+                          left=0.215, right=0.975, top=0.855, bottom=0.115,
+                          wspace=0.26, hspace=0.40)
     ax = fig.add_subplot(gs[:, 0])
     y = np.arange(len(items))
-    ax.barh(y, [v["requests"] for _, v in items],
-            color=[tier_color[v["tier"]] for _, v in items], height=0.68)
+    vals = [v["requests"] for _, v in items]
+    ax.barh(y, vals, color=[tier_color[v["tier"]] for _, v in items], height=0.68)
+    xmax = 3.0e7
     for yy, (rid, v) in zip(y, items):
-        ax.text(v["requests"] * 1.25, yy, "%s   %s   %d req / %d IPs" % (
-            rid, v["framework"], v["requests"], v["distinct_source_addresses"]),
-            va="center", fontsize=9.5, color=INK)
+        label = "%s req / %d IPs" % (format(v["requests"], ","),
+                                     v["distinct_source_addresses"])
+        if v["requests"] > xmax * 0.12:
+            ax.text(v["requests"] * 0.93, yy, label, va="center", ha="right", fontsize=9.5,
+                    color="white")
+        else:
+            ax.text(v["requests"] * 1.35, yy, label, va="center", ha="left", fontsize=9.5,
+                    color=INK)
     ax.set_yticks(y)
-    ax.set_yticklabels([rid for rid, _ in items], fontsize=10)
+    ax.set_yticklabels(["%s  %s" % (rid, v["framework"]) for rid, v in items], fontsize=10)
     ax.set_xlabel("requests matched (log scale)", fontsize=12)
     ax.set_xscale("log")
-    ax.set_xlim(1, 3.0e7)
+    ax.set_xlim(1, xmax)
     ax.xaxis.grid(True, color="#E6EAEF", linewidth=0.8)
     ax.set_axisbelow(True)
     ax.set_title("The 16 rules that matched on public traffic - all of them tier 2 or tier 3",
@@ -143,18 +152,18 @@ def figure8():
 
     ax2 = fig.add_subplot(gs[0, 1])
     ax2.axis("off")
-    ax2.text(0.0, 0.98, "T1 validation on real traffic", fontsize=12.5, fontweight="bold",
+    ax2.text(0.0, 0.97, "T1 validation on real traffic", fontsize=12.5, fontweight="bold",
              color=INK, va="top")
-    ax2.text(0.0, 0.80, "Public internet traffic\n%s requests  /  %s source IPs\n\n"
+    ax2.text(0.0, 0.84, "Public internet traffic\n%s requests  /  %s source IPs\n\n"
                          "Real WAF attack transactions\n%s transactions (30 days, ModSecurity)\n\n"
                          "T1 rules matched:  0   and   0"
              % (format(bg["rows_total"], ","), format(bg["distinct_ips_total"], ","),
                 format(waf["requests"], ",")),
              fontsize=11, color=INK, va="top", linespacing=1.5,
              bbox=dict(boxstyle="round,pad=0.6", facecolor="#F4F7FA", edgecolor="#D7DEE6"))
-    ax2.text(0.0, 0.20, "%d tier-1 body rules were evaluated against the WAF log:\n"
-                         "%d of them matched." % (waf["body_t1_total"], waf["body_t1_hit_rules"]),
-             fontsize=10.5, color="#42505E", va="top")
+    ax2.text(0.0, 0.02, "%d tier-1 body rules were evaluated against the WAF log: %d matched."
+             % (waf["body_t1_total"], waf["body_t1_hit_rules"]),
+             fontsize=10.5, color="#42505E", va="bottom")
 
     ax3 = fig.add_subplot(gs[1, 1])
     dist = bg["ip_hit_count_dist"]
@@ -312,21 +321,18 @@ def figure10():
     ylim = (0.5, 2.0e4)
     rx = np.clip(np.maximum(real["rpm"], 1e-3), xlim[0], xlim[1])
     ry = np.clip(np.maximum(real["templates"], 1), ylim[0], ylim[1])
-    h = ax.hexbin(rx, ry, gridsize=26, cmap="Blues", mincnt=1, alpha=0.5, linewidths=0.3,
-                  extent=(xlim[0], xlim[1], ylim[0], ylim[1]))
+    h = ax.hexbin(rx, ry, gridsize=26, cmap="Blues", mincnt=1, alpha=0.40, linewidths=0.3,
+                  bins="log")
     ax.scatter([a["rpm"] for a in ai], [a["templates"] for a in ai], s=70, color=BLUE,
                edgecolor="white", linewidth=0.8, zorder=4, label="AI agent actors (15)")
     ax.scatter([s["rpm"] for s in sc], [s["templates"] for s in sc], s=90, marker="D",
                color=RED, edgecolor="white", linewidth=0.8, zorder=5,
                label="scanner actors (6)")
-    cb = fig.colorbar(h, ax=ax, pad=0.02, fraction=0.045, shrink=0.85)
-    cb.set_label("real attackers (1,582)", fontsize=9.5)
-    cb.ax.tick_params(labelsize=8.5)
     flag = [s for s in sc if s["detected"]]
     ax.annotate("%d flagged scanner actors" % len(flag),
                 xy=(float(np.median([s["rpm"] for s in flag])),
                     float(np.median([s["templates"] for s in flag]))),
-                xytext=(-30, -34), textcoords="offset points", fontsize=9.5, color=RED,
+                xytext=(0.60, 0.86), textcoords="axes fraction", fontsize=9.5, color=RED,
                 arrowprops=dict(arrowstyle="->", color=RED, linewidth=1.2))
     ax.set_xscale("log")
     ax.set_yscale("log")
@@ -336,7 +342,9 @@ def figure10():
     ax.set_ylabel("distinct endpoint templates", fontsize=12)
     ax.grid(True, color="#EDF1F5", linewidth=0.7)
     ax.set_axisbelow(True)
-    ax.legend(loc="upper left", fontsize=9.5)
+    handles, labels = ax.get_legend_handles_labels()
+    handles.append(Patch(facecolor="#B7CFEB", alpha=0.75, label="real attackers (1,582)"))
+    ax.legend(handles=handles, loc="upper left", fontsize=9.5)
     ax.set_title("Rate and breadth overlap", fontsize=12.5, loc="left", pad=10)
 
     # (b) ECDF of the request rate
@@ -351,6 +359,7 @@ def figure10():
     ax2.step(xs, ys, where="post", color=GREY, linestyle="--", linewidth=1.8,
              label="real attackers (1,582)")
     ax2.set_xscale("log")
+    ax2.set_xlim(0.3, 2.0e4)
     ax2.set_xlabel("request rate (requests per minute)", fontsize=12)
     ax2.set_ylabel("cumulative share of actors", fontsize=12)
     ax2.set_ylim(0, 1.02)
@@ -371,6 +380,7 @@ def figure10():
     ax3.step(xs, ys, where="post", color=GREY, linestyle="--", linewidth=1.8,
              label="real attackers (1,582)")
     ax3.set_xscale("log")
+    ax3.set_xlim(0.5, 2.0e4)
     ax3.set_xlabel("distinct endpoint templates", fontsize=12)
     ax3.set_ylabel("cumulative share of actors", fontsize=12)
     ax3.set_ylim(0, 1.02)
@@ -403,7 +413,7 @@ def figure11():
 
     fig = plt.figure(figsize=(15.0, 7.2))
     gs = fig.add_gridspec(1, 2, width_ratios=[1.25, 1.0], left=0.06, right=0.975,
-                          top=0.835, bottom=0.135, wspace=0.24)
+                          top=0.80, bottom=0.135, wspace=0.24)
     ax = fig.add_subplot(gs[0, 0])
     for a in ai:
         det = a["detected"] == "yes"
@@ -412,16 +422,42 @@ def figure11():
                    color=BLUE if det else RED, alpha=0.85, edgecolor="white",
                    linewidth=1.0, zorder=4)
     ax.axhline(tau, color=INK, linestyle="--", linewidth=1.5)
-    ax.text(1.4, tau + 0.012, "decision threshold 0.35", fontsize=10.5, color=INK,
-            fontweight="bold")
-    for a in ai:
-        ax.annotate(a["actor_id"], (a["duration_s"], a["ai_score"]),
-                    textcoords="offset points", xytext=(0, 11), fontsize=8.8,
-                    ha="center", color=INK)
     ax.set_xscale("log")
+    ax.set_xlim(45, 3.0e4)
+    ax.set_ylim(0.15, 0.92)
+    ax.text(48, tau + 0.022, "decision threshold 0.35", fontsize=10.5, color=INK,
+            fontweight="bold", va="bottom", ha="left")
+
+    # greedy label placement: no label may overlap another label or a bubble
+    placed = []
+    offsets = [(0, 13), (0, -20), (58, 6), (58, -18), (-58, 6), (-58, -18),
+               (0, 30), (0, -36), (80, 24), (-80, 24), (80, -34), (-80, -34)]
+    fs = 8.8
+    for a in sorted(ai, key=lambda x: -x["ai_score"]):
+        px, py = ax.transData.transform((a["duration_s"], a["ai_score"]))
+        area = 40 + 260 * (a["scored_actor_requests"] / total) ** 0.35
+        rad = math.sqrt(area / math.pi) + 2.0
+        w = len(a["actor_id"]) * fs * 0.75
+        h = fs * 1.6
+        best = offsets[0]
+        for dx, dy in offsets:
+            x0 = px + dx - w / 2.0
+            x1 = px + dx + w / 2.0
+            y0 = py + dy - h / 2.0
+            y1 = py + dy + h / 2.0
+            if all(not (x0 < bx1 and x1 > bx0 and y0 < by1 and y1 > by0)
+                   for bx0, bx1, by0, by1 in placed):
+                best = (dx, dy)
+                break
+        placed.append((px + best[0] - w / 2.0, px + best[0] + w / 2.0,
+                       py + best[1] - h / 2.0, py + best[1] + h / 2.0))
+        placed.append((px - rad, px + rad, py - rad, py + rad))
+        ax.annotate(a["actor_id"], (a["duration_s"], a["ai_score"]),
+                    textcoords="offset points", xytext=best, fontsize=fs,
+                    ha="center", va="center", color=INK, zorder=6,
+                    path_effects=[pe.withStroke(linewidth=2.6, foreground="white")])
     ax.set_xlabel("attack duration of the actor (seconds, log scale)", fontsize=12)
     ax.set_ylabel("AI attribution score", fontsize=12)
-    ax.set_ylim(0.15, 0.92)
     ax.set_yticks([0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
     ax.yaxis.grid(True, color="#E6EAEF", linewidth=0.8)
     ax.set_axisbelow(True)
@@ -433,34 +469,35 @@ def figure11():
     y = np.arange(len(ordered))[::-1]
     ax2.barh(y, [a["scored_actor_requests"] for a in ordered], color=BLUE, height=0.68)
     for yy, a in zip(y, ordered):
-        ax2.text(a["scored_actor_requests"] * 1.08, yy,
-                 "%s   %s   %d req" % (format(a["scored_actor_requests"], ","),
-                                       a["framework"], a["duration_s"]),
+        ax2.text(a["scored_actor_requests"] * 1.25, yy,
+                 "%s req  (%s s)" % (format(a["scored_actor_requests"], ","),
+                                     format(int(a["duration_s"]), ",")),
                  va="center", fontsize=9.5, color=INK)
     ax2.set_yticks(y)
     ax2.set_yticklabels([a["actor_id"] for a in ordered], fontsize=10)
     ax2.set_xscale("log")
-    ax2.set_xlim(30, 2.0e5)
+    ax2.set_xlim(25, 1.0e6)
     ax2.set_xlabel("scored requests per actor (log scale)", fontsize=12)
     ax2.xaxis.grid(True, color="#E6EAEF", linewidth=0.8)
     ax2.set_axisbelow(True)
     ax2.set_title("Attack volume per actor", fontsize=12.5, loc="left", pad=10)
     top = ordered[0]
-    ax2.text(0.0, -0.13, "strix alone contributes %d of the %s scored agent requests (%.0f%%)"
-             % (top["scored_actor_requests"], format(total, ","),
+    ax2.text(0.0, -0.16, "strix alone contributes %s of the %s scored agent requests (%.0f%%)"
+             % (format(top["scored_actor_requests"], ","), format(total, ","),
                 100.0 * top["scored_actor_requests"] / total),
              transform=ax2.transAxes, fontsize=10.5, color=INK,
              bbox=dict(boxstyle="round,pad=0.45", facecolor="#F4F7FA", edgecolor="#D7DEE6"))
 
     fig.suptitle("Figure 11 - The 15 AI agent attack segments: duration, volume and score",
-                 fontsize=15, fontweight="bold", x=0.06, ha="left", y=0.955)
-    fig.text(0.06, 0.905,
+                 fontsize=15, fontweight="bold", x=0.06, ha="left", y=0.975)
+    fig.text(0.06, 0.925,
              "Headline number: a single capture (strix, %s requests) carries %.0f%% of all scored "
-             "agent traffic, and the two missed frameworks are the two shortest, thinnest actors "
-             "in the set."
+             "agent traffic, and the two missed frameworks\n"
+             "are the two thinnest actors in the set (hackingBuddyGPT with 62 requests, pentest-ai "
+             "veto-capped at 0.250)."
              % (format(top["scored_actor_requests"], ","),
                 100.0 * top["scored_actor_requests"] / total),
-             fontsize=10.5, color="#42505E", ha="left")
+             fontsize=10.5, color="#42505E", ha="left", va="top", linespacing=1.5)
     return save(fig, "fig11_ai_actor_timeline", 15.0, 7.2)
 
 
@@ -507,9 +544,9 @@ def figure12():
 
     colors = {"AI agent actors (15)": BLUE, "Scanner actors (6)": RED,
               "Real attackers (1,582)": GREY}
-    fig = plt.figure(figsize=(15.0, 7.6))
+    fig = plt.figure(figsize=(15.0, 7.8))
     gs = fig.add_gridspec(1, 2, width_ratios=[1.15, 1.0], left=0.10, right=0.975,
-                          top=0.835, bottom=0.135, wspace=0.30)
+                          top=0.80, bottom=0.135, wspace=0.30)
     ax = fig.add_subplot(gs[0, 0])
     names = list(pops)
     fh = len(names)
@@ -526,6 +563,12 @@ def figure12():
     ax.set_axisbelow(True)
     ax.legend(fontsize=10, loc="lower right")
     ax.set_title("Which feature families carry the score", fontsize=12.5, loc="left", pad=10)
+    ax.text(0.20, 0.50,
+            "the flagged scanner actors fire the shared\n"
+            "rules E5, E6, E7, E11 and E12; those five rules\n"
+            "alone sum to 0.542, above the 0.35 decision line",
+            transform=ax.transAxes, fontsize=9.5, color=INK, va="center", ha="left",
+            bbox=dict(boxstyle="round,pad=0.45", facecolor="#F4F7FA", edgecolor="#D7DEE6"))
 
     ax2 = fig.add_subplot(gs[0, 1])
     active = sorted([r for r in rules if any(fire[n][r] > 0 for n in names)],
@@ -533,7 +576,8 @@ def figure12():
     y2 = np.arange(len(active))[::-1]
     for j, name in enumerate(names):
         yy = y2 + (fh - 1) / 2.0 * h - j * h
-        ax2.barh(yy, [fire[name][r] for r in active], height=h * 0.92, color=colors[name])
+        ax2.barh(yy, [fire[name][r] for r in active], height=h * 0.92, color=colors[name],
+                 label=name if j == 0 else None)
     for j, name in enumerate(names):
         yy = y2 + (fh - 1) / 2.0 * h - j * h
         for r, v in zip(active, [fire[name][r] for r in active]):
@@ -548,18 +592,19 @@ def figure12():
     ax2.set_xticklabels(["0", "25%", "50%", "75%", "100%"])
     ax2.xaxis.grid(True, color="#E6EAEF", linewidth=0.8)
     ax2.set_axisbelow(True)
-    ax2.legend(fontsize=10, loc="lower right")
-    ax2.set_title("Rule firing rate per population", fontsize=12.5, loc="left", pad=10)
-    ax2.text(0.0, -0.135, "the four scanner actors that were flagged fire the same rules "
-             "(E5, E6, E7, E9, E11, E12) as the AI agents",
-             transform=ax2.transAxes, fontsize=10.5, color=INK,
-             bbox=dict(boxstyle="round,pad=0.45", facecolor="#F4F7FA", edgecolor="#D7DEE6"))
+    ax2.set_title("Rule firing rate per population (colours as in the left panel)",
+                  fontsize=12.5, loc="left", pad=10)
+    ax2.text(0.5, -0.20,
+             "the flagged scanner actors fire the shared rules E5, E6, E7, E11 and E12\n"
+             "(plus E9 for three of them); those five rules alone sum to 0.542 > 0.35",
+             transform=ax2.transAxes, fontsize=10, color=INK, va="top", ha="center",
+             linespacing=1.5)
 
     fig.suptitle("Figure 12 - The scanner false positives fire the same evidence rules as the "
-                 "AI agents", fontsize=15, fontweight="bold", x=0.10, ha="left", y=0.955)
-    fig.text(0.10, 0.905,
-             "Headline number: the scanner actors trigger E5, E6, E7, E9, E11 and E12 - the same "
-             "feedback, repetition and enumeration rules that carry the AI signal - which is why "
-             "66.67% of them are flagged.",
-             fontsize=10.5, color="#42505E", ha="left")
+                 "AI agents", fontsize=15, fontweight="bold", x=0.10, ha="left", y=0.975)
+    fig.text(0.10, 0.925,
+             "Headline number: the flagged scanner actors trigger E5, E6, E7, E11 and E12 - the\n"
+             "feedback, repetition and enumeration rules that carry the AI signal - and those five\n"
+             "rules alone sum to 0.542, above the 0.35 decision line: 66.67% of the scanners are flagged.",
+             fontsize=10.5, color="#42505E", ha="left", va="top", linespacing=1.5)
     return save(fig, "fig12_feature_family_profile", 15.0, 7.6)

@@ -383,9 +383,10 @@ def figure4():
                  arrowprops=dict(arrowstyle="->", color=INK, linewidth=1.3))
     for xi, f, h, r in zip(x, fp, hi, fpr):
         if xi in (0.25, 0.60):
+            ha, dx = ("right", -8) if xi == 0.60 else ("left", 8)
             ax2.annotate("%d FP (%.2f%%)" % (f, 100.0 * r), xy=(xi, r),
-                         xytext=(6, 10), textcoords="offset points", fontsize=9.5,
-                         color="#42505E")
+                         xytext=(dx, 10), textcoords="offset points", fontsize=9.5,
+                         color="#42505E", ha=ha)
     ax2.set_xlabel("decision threshold tau", fontsize=12)
     ax2.set_ylabel("false-positive rate", fontsize=12)
     ax2.set_yscale("log")
@@ -461,24 +462,38 @@ def figure5():
                  loc="left", pad=10)
 
     ax2 = fig.add_subplot(gs[0, 1])
-    scores = [float(r.get("ai_score", 0.0))
-              for r in load_jsonl(DATA / "features" / "actor_features.jsonl")]
+    scores = sorted(float(r.get("ai_score", 0.0))
+                    for r in load_jsonl(DATA / "features" / "actor_features.jsonl"))
     sc_idx = load_json(NEG / "_index.json")
     sc_scores = [float(c["ai_score"]) for c in sc_idx["captures"]]
-    bins = np.linspace(0, 0.85, 35)
-    ax2.hist(scores, bins=bins, color=BLUE, alpha=0.85, label="1,582 real attackers (WAF)")
-    top = ax2.get_ylim()[1]
-    ax2.scatter(sc_scores, [top * 0.9] * len(sc_scores), s=70, color=RED, zorder=5,
-                label="6 scanner actors", edgecolor="white", linewidth=0.8)
-    ax2.axvline(0.35, color=INK, linestyle="--", linewidth=1.5)
-    ax2.text(0.362, top * 0.93, "tau = 0.35", fontsize=10.5, color=INK, fontweight="bold",
-             va="top", bbox=dict(boxstyle="square,pad=0.25", facecolor="white",
-                                 edgecolor="none", alpha=0.9))
+    n = len(scores)
+    ax2.plot(scores, [100.0 * (i + 1) / n for i in range(n)], color=BLUE, linewidth=2.0,
+             label="1,582 real attackers (WAF)")
+    for s in sc_scores:
+        ax2.plot([s, s], [0, 100], color=RED, linewidth=1.4, alpha=0.85)
+        ax2.plot([s], [100], marker="D", color=RED, markersize=6)
+    ax2.axvline(0.35, color=INK, linestyle="--", linewidth=1.6)
     ax2.set_xlabel("AI attribution score", fontsize=12)
-    ax2.set_ylabel("actors (log scale)", fontsize=12)
-    ax2.set_yscale("log")
+    ax2.set_ylabel("cumulative share of actors", fontsize=12)
     ax2.set_xlim(0, 0.85)
-    ax2.legend(fontsize=9.5, loc="upper right")
+    ax2.set_ylim(0, 118)
+    ax2.set_yticks([0, 25, 50, 75, 100])
+    ax2.set_yticklabels(["0", "25%", "50%", "75%", "100%"])
+    ax2.yaxis.grid(True, color="#E6EAEF", linewidth=0.8)
+    ax2.set_axisbelow(True)
+    ax2.text(0.36, 112, "tau = 0.35", fontsize=10.5, color=INK, fontweight="bold",
+             va="top", ha="left")
+    ax2.annotate("43 of 1,582 real attackers\nreach tau", xy=(0.35, 2.72), xytext=(0.40, 22),
+                 fontsize=10, color=BLUE, va="center",
+                 arrowprops=dict(arrowstyle="->", color=BLUE, linewidth=1.2))
+    ax2.annotate("4 of 6 scanner actors reach tau\n(their scores sit inside the\n"
+                 "real-attacker score range)",
+                 xy=(0.597, 100), xytext=(0.44, 66), fontsize=10, color=RED, va="center",
+                 arrowprops=dict(arrowstyle="->", color=RED, linewidth=1.2))
+    ax2.plot([], [], color=RED, linewidth=1.4, marker="D", label="6 scanner actors")
+    leg = ax2.legend(fontsize=9.5, loc="lower left", frameon=True, framealpha=0.92,
+                      facecolor="white", edgecolor="none")
+    leg.get_frame().set_linewidth(0.0)
     ax2.set_title("Where the two populations sit", fontsize=12.5, loc="left", pad=10)
 
     fig.suptitle("Figure 5 - False positives: 2.72% on real attackers versus 66.67% on "
@@ -538,17 +553,18 @@ def figure6():
         lost[f] = n
 
     fams = sorted(fam, key=lambda f: (fam[f], f))
-    fig = plt.figure(figsize=(13.5, 6.6))
+    fig = plt.figure(figsize=(13.5, 7.1))
     gs = fig.add_gridspec(1, 2, width_ratios=[2.0, 1.0], left=0.175, right=0.975,
-                          top=0.835, bottom=0.155, wspace=0.28)
+                          top=0.82, bottom=0.145, wspace=0.28)
     ax = fig.add_subplot(gs[0, 0])
     y = np.arange(len(fams))[::-1]
     vals = [fam[f] for f in fams]
     cols = [RED if f == "F3" else (AMBER if f == "F6" else BLUE) for f in fams]
     ax.barh(y, vals, color=cols, height=0.66)
     ax.axvline(base, color=INK, linestyle="--", linewidth=1.5)
-    ax.text(base + 0.004, -0.95, "base recall 0.933 (14 of 15 segments)", fontsize=10.5,
-            color=INK, fontweight="bold", va="center")
+    ax.set_ylim(-0.9, 8.8)
+    ax.text(0.605, 8.2, "base recall 0.933 (14 of 15 segments)", fontsize=10.5,
+            color=INK, fontweight="bold", va="center", ha="left")
     for yy, f, v in zip(y, fams, vals):
         delta = (v - base) * 100.0
         label = "%.3f" % v if abs(delta) < 1e-9 else "%.3f  (%+.1f pp)" % (v, delta)
@@ -563,8 +579,8 @@ def figure6():
     ax.set_axisbelow(True)
     ax.set_title("Feature-family ablation", fontsize=12.5, loc="left", pad=10)
     ax.annotate("F3 is load-bearing: without it\n3 of the 15 segments drop below tau",
-                xy=(fam["F3"] + 0.008, len(fams) - 1 - fams.index("F3")),
-                xytext=(0.78, 0.30), fontsize=10.5, color=INK,
+                xy=(fam["F3"] + 0.006, len(fams) - 1 - fams.index("F3") - 0.25),
+                xytext=(0.605, 7.1), fontsize=10.5, color=INK, va="center", ha="left",
                 arrowprops=dict(arrowstyle="->", color=RED, linewidth=1.4))
 
     ax2 = fig.add_subplot(gs[0, 1])
@@ -584,8 +600,8 @@ def figure6():
     ax2.set_title("Segments lost per family", fontsize=12.5, loc="left", pad=10)
 
     fig.suptitle("Figure 6 - Feature-family ablation: F3 (feedback adaptivity) carries the "
-                 "detector", fontsize=15, fontweight="bold", x=0.175, ha="left", y=0.955)
-    fig.text(0.175, 0.895,
+                 "detector", fontsize=15, fontweight="bold", x=0.175, ha="left", y=0.975)
+    fig.text(0.175, 0.925,
              "Headline number: removing F3 lowers the recall upper bound from 0.933 to 0.733 "
              "(-20.0 points, 3 of 15 segments lost); removing F6 costs 1 segment (0.867); the "
              "other five families cost nothing.",

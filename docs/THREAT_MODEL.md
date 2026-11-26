@@ -29,7 +29,7 @@ The mitigation is obvious and available to an adversary: change one string. The 
 one line of source; the cost to a defender is a signature that has to be re-audited. This is
 not a hypothetical risk - it is measurable in this project's own history.
 
-**The measured decay.** When the corpus grew from 38 to 65 frameworks in the study's
+**The measured decay.** When the corpus grew from 38 to 65 codebases in the study's
 expansion round, 7 of the newly added rules matched real public traffic and had to be demoted.
 The named examples are generic Chrome-masquerade user agents, `Python/3`, the bare token
 `cyber`, a public Googlebot user agent, a `True-Client-IP` private-address forgery, and public
@@ -42,7 +42,8 @@ The hit counts these rules accumulated on the shipped 9,905,794-request corpus a
 
 ### 1.2 The rule conditions and their thresholds
 
-`METHODOLOGY.md` section 3 publishes the exact conditions of all 15 evidence rules and their
+`METHODOLOGY.md` section 3 publishes the exact conditions of the 14 implemented evidence rules
+(E1-E12, E14, E15; E13 is a retired identifier) and their
 thresholds. An adversary who wants to avoid the behavioural detector can now compute, offline,
 the minimum behaviour set that still clears 0.35 - for instance, that E5, E6 and E11 together
 reach 0.4086 from the feedback-adaptivity family alone, so the error-adaptation evidence can

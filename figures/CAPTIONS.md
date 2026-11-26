@@ -5,16 +5,17 @@ what the figure shows and the headline number it carries. All numbers are
 reproducible from the artifacts in `data/` and `signatures/`; the PNG files
 live in `figures/`, the vector (PDF/SVG) versions in `figures/vector/`.
 
-Regenerate with:
+Regenerate and re-check everything with:
 
 ~~~bash
-python figures/build_figures.py
+python figures/build_figures.py     # renders PNG + PDF + SVG
+python figures/verify_figures.py     # size / blank / vector / ASCII checks
 ~~~
 
 ---
 
 1. **Figure 1 - Framework attribution matrix** (`fig01_framework_attribution_matrix.png`).
-   One row per audited AI pentest repository (64 in the released coverage
+   One row per audited AI pentest repository (64 rows in the released coverage
    matrix), encoded on four columns: source audit present, indicator
    inventory present, how far the runtime execution got (captured / ran
    without own fingerprint / dry run only / blocked), and whether the
@@ -61,8 +62,8 @@ python figures/build_figures.py
 
 5. **Figure 5 - False-positive breakdown** (`fig05_false_positive_breakdown.png`).
    False-positive rate of the six negative populations of the study, with 95%
-   Wilson intervals, next to the score distributions of the two headline
-   populations (1,582 WAF attackers and 6 scanner containers).
+   Wilson intervals, next to the cumulative score distribution of the two
+   headline populations (1,582 WAF attackers and 6 scanner containers).
    **Headline: 2.72% false positives on the 1,582 real attackers (43/1,582)
    against 66.67% on the six tool-driven scanner containers (4/6) - a 24.5x
    difference between the two attacker populations; the honeypot population
@@ -118,7 +119,9 @@ python figures/build_figures.py
     6 scanner containers and the 1,582 real attackers in one plot of request
     rate against endpoint breadth, plus the cumulative distributions of both
     variables. Endpoint templates are the shipped endpoint templating
-    (numbers, UUIDs, hashes and mail addresses folded into {id}).
+    (numbers, UUIDs, hashes and mail addresses folded into {id}); the
+    request-rate axis is capped at 20,000 requests per minute, above which
+    the real-attacker curve is already flat at 100%.
     **Headline: the four scanner actors that were flagged sit inside the
     request-rate and endpoint-breadth range of the AI agent actors, which is
     the mechanical reason for the 66.67% scanner false-positive rate.**
@@ -128,19 +131,19 @@ python figures/build_figures.py
     attribution score, the bubble area showing the request volume, with the
     decision threshold marked. Right: the scored request volume per actor.
     **Headline: a single capture (strix, 31,024 of the 54,900 scored agent
-    requests, 56%) carries more than half of all scored agent traffic, and
+    requests, 57%) carries more than half of all scored agent traffic, and
     the two missed frameworks are the two thinnest actors in the set
-    (hackingBuddyGPT 62 requests, pentest-ai veto-capped at 0.250).**
+    (hackingBuddyGPT with 62 requests, pentest-ai veto-capped at 0.250).**
 
 12. **Figure 12 - Which feature families carry the decision**
     (`fig12_feature_family_profile.png`). Left: the mean conviction weight
     each feature family contributes, for the AI agent actors, the scanner
     actors and the 1,582 real attackers. Right: how often each evidence rule
     fires in the three populations.
-    **Headline: the flagged scanner actors fire exactly the same evidence
-    rules as the AI agents - E5, E6, E7, E9, E11 and E12 - so the behaviour
-    layer cannot separate them; this is the source of the 66.67% scanner
-    false-positive rate.**
+    **Headline: the flagged scanner actors fire the shared rules E5, E6, E7,
+    E11 and E12 (plus E9 for three of them) and those five rules alone sum
+    to 0.542, already above the 0.35 decision line - which is why 66.67% of
+    the scanner actors are flagged.**
 
 ---
 
@@ -160,3 +163,32 @@ python figures/build_figures.py
 | 10 | `data/positive/*/access.jsonl`, `data/negative/*/access.jsonl`, `data/features/actor_features.csv` |
 | 11 | `data/aggregate/framework_detection.json`, `data/positive/*/meta.json` |
 | 12 | `data/aggregate/framework_detection.json`, `data/negative/_index.json`, `data/features/actor_features.jsonl` |
+
+## Notes on two counts that are easy to misread
+
+* **64, not 65.** The released framework coverage matrix
+  (`data/aggregate/framework_coverage_matrix.json`) has 64 audited
+  repositories, and that is the number Figure 1 plots. The repository README
+  quotes "65 audited AI-pentest codebases" as its headline; the rule-set
+  artifact explains the difference: the rule set references 44 distinct
+  framework labels, and the coverage matrix lists 64 audited repositories.
+  The gap is made up of repositories that contributed no rule and of
+  synthetic labels used for the project's own components.
+* **13 of 15 versus 10 of 12.** The threshold trade-off artifact was produced
+  against an earlier positive set of 13 captures over 10 frameworks; the
+  recall columns of Figure 4 are recomputed on the released 15 captures over
+  12 frameworks (the shipped `recomputed_on_released_set` block), while the
+  false-positive columns are unchanged because the negative population did
+  not change.
+
+## Style
+
+* matplotlib only, DejaVu Sans throughout, no seaborn.
+* Colour-blind safe palette: #2E5EAA (blue), #D1495B (red), #2A9D8F (teal),
+  #E9C46A (amber), #6C757D (grey); the four accents differ strongly in
+  luminance, so every figure stays readable in greyscale. Ordinal scales
+  (runtime status) use a single-hue blue ramp, nominal scales use the accents.
+* No top/right spines, horizontal gridlines only, legend frames removed.
+* Label fonts >= 10 pt, axis titles 12-12.5 pt, figure titles 15 pt bold.
+* Every figure is exported as PNG (150 dpi, README) and as PDF and SVG
+  (`figures/vector/`, paper).

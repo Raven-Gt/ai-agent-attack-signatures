@@ -266,7 +266,7 @@ What an operator gains from reading this repository:
 
 What this costs the defensive side, concretely: a tier-1 signature set that is published is a
 signature set that decays. The study's own evidence for this is that 7 of the rules added in the
-expansion round (from 38 to 65 frameworks) matched real public traffic and had to be demoted -
+expansion round (from 38 to 65 codebases) matched real public traffic and had to be demoted -
 generic Chrome-masquerade user agents, `Python/3`, the bare token `cyber`, a public Googlebot
 user agent, a `True-Client-IP` private-address forgery, and public OAST domains. Their hit
 counts on the shipped corpus are in `RESULTS.md` section 6.2.

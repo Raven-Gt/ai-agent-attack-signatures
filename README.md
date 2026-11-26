@@ -2,14 +2,14 @@
 
 **Traffic signatures and detection methodology for AI-powered penetration-testing agents.**
 
-An empirical study of 65 AI pentest frameworks: which ones leave an attributable
-fingerprint on the target side, which ones do not, and why the difference matters more
-than the rule count.
+An empirical study of 65 audited AI-pentest codebases - 64 third-party frameworks plus one
+in-house implementation - determining which ones leave an attributable fingerprint on the
+target side, which ones do not, and why that difference matters more than the rule count.
 
 ## The headline finding
 
-> **Of 65 audited AI pentest frameworks, only 10 leave a signature that can be attributed
-> on the target side.**
+> **Of 65 audited AI-pentest codebases (64 third-party frameworks plus one in-house
+> implementation), only 10 leave a signature that can be attributed on the target side.**
 >
 > Most AI agents delegate the actual attack to general-purpose tooling (sqlmap, ffuf,
 > nuclei, curl). From the target's point of view that traffic is indistinguishable from a
@@ -30,7 +30,7 @@ This repository therefore ships **both** the signatures that hold up under real 
 | `docs/` | Methodology, experiment protocol, results, framework coverage matrix, limitations, threat model |
 | `data/` | 15 AI-agent attack captures (211,547 requests, 12 frameworks), 6 scanner hard-negative captures (999 requests), pseudonymised feature vectors for 1,582 real attackers (103 features each), 15 aggregate tables, checksums, dataset card |
 | `research/` | Reproducible pipeline and evaluation code |
-| `figures/` | Paper-grade figures |
+| `figures/` | 12 paper-grade figures (PNG + PDF/SVG) with a caption file carrying the headline number of each |
 
 ## Quick start
 
@@ -122,6 +122,8 @@ and the reason for each.
 | **Figure 7** - leave-one-framework-out recall per held-out framework | **Figure 8** - rule validation on 9.9M real requests |
 | ![Evidence rule weights](figures/fig09_evidence_rule_weights.png) | ![Agent versus scanner behaviour](figures/fig10_ai_agent_vs_scanner_behaviour.png) |
 | **Figure 9** - evidence-rule weights grouped by feature family | **Figure 10** - why agent traffic and scanner traffic overlap |
+| ![Per-actor timeline](figures/fig11_ai_actor_timeline.png) | ![Feature family profile](figures/fig12_feature_family_profile.png) |
+| **Figure 11** - request volume over time per agent capture | **Figure 12** - which evidence rules separate agents, scanners and real attackers |
 
 Full captions: `figures/CAPTIONS.md`. Vector versions (PDF/SVG) are in `figures/vector/`.
 
@@ -157,7 +159,7 @@ not directly comparable) value. The published numbers therefore come from
 
 A signature set rots fast - one UA change and a rule dies. We audit by downloading
 repositories and reading source, which takes days per refresh. If you maintain one of the
-65 frameworks covered here, you know your own markers better than we do.
+frameworks covered here, you know your own markers better than we do.
 
 - open an issue using the `new-framework-signature` template, or
 - open a pull request adding your signature to `signatures/rules.json`, or

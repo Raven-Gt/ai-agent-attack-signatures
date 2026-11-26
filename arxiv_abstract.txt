@@ -1,5 +1,5 @@
 ---
-title: 'Attribution Limits of AI Pentest Agents: An Empirical Study of 65 Frameworks'
+title: 'Attribution Limits of AI Pentest Agents: An Empirical Study of 65 Audited Codebases'
 tags:
   - cybersecurity
   - ai-agents
@@ -22,7 +22,7 @@ description: |
 
   Alongside the signatures we build an actor-level behavioural detector whose decision unit
   is the actor (all requests from one source address within a time window). Forty-three
-  features grouped into ten families feed fifteen evidence rules fused with a noisy-OR
+  features grouped into ten families feed fourteen evidence rules fused with a noisy-OR
   model. Across 15 live agent captures covering 12 frameworks the detector reaches 86.7%
   segment recall and 83.3% framework recall (one-sided 95% lower bound 0.779), retains 90%
   recall under leave-one-framework-out, and runs at a 2.72% false-positive rate on 1,582

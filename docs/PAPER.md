@@ -1,6 +1,6 @@
 # Attribution Limits of AI Pentest Agents
 
-## An Empirical Study of 65 Frameworks, 272 Validated Traffic Signatures, and the Boundary Where Attribution Stops Working
+## An Empirical Study of 65 Audited Codebases, 272 Validated Traffic Signatures, and the Boundary Where Attribution Stops Working
 
 **Repository:** `ai-agent-attack-signatures`  
 **Artifact:** signatures, datasets and evaluation code in this repository
@@ -12,7 +12,8 @@
 AI-assisted penetration-testing agents are being deployed to automate reconnaissance and
 exploitation at scale. The defensive question that follows is whether such traffic can be
 identified and attributed on the victim network. This paper reports an empirical study of
-65 AI pentest frameworks, combining static source auditing with live traffic collection and
+65 audited AI-pentest codebases (64 third-party frameworks plus one in-house implementation),
+combining static source auditing with live traffic collection and
 scoring against three real-world corpora.
 
 We extract 610 traffic signatures from the audited frameworks and tier them by
@@ -26,7 +27,7 @@ exactly one source address.
 
 Alongside signatures we build a behavioural detector whose decision unit is the *actor*
 (all requests from one source address within a time window) rather than the individual
-request. Forty-three features grouped into ten families feed fifteen evidence rules that
+request. Forty-three features grouped into ten families feed fourteen evidence rules that
 are fused with a noisy-OR model. Across 15 live AI-agent captures covering 12 frameworks the
 detector reaches 86.7% segment recall and 83.3% framework recall (one-sided 95% lower bound
 0.779), while a leave-one-framework-out evaluation retains 90% recall. On 1,582 real
@@ -54,7 +55,7 @@ produced by an AI agent rather than by a person - and if so, which agent?
 
 Signature catalogues exist for conventional tooling, and the obvious move is to apply the
 same recipe to AI agents: read the source, extract the distinguishing strings, ship the
-rules. This paper reports doing exactly that for 65 frameworks, and then measuring how far
+rules. This paper reports doing exactly that for 65 codebases, and then measuring how far
 the result actually gets on real traffic.
 
 Three findings shape the contribution.
@@ -62,7 +63,7 @@ Three findings shape the contribution.
 **Finding 1 - the majority of AI agents leave no framework-specific trace on the target.**
 Most frameworks do not issue HTTP requests themselves; they orchestrate external tools
 (sqlmap, ffuf, nuclei, nmap, curl) through a shell. The target therefore observes the
-tool, not the agent. Of 65 audited frameworks, only 10 were validated end-to-end as
+tool, not the agent. Of 65 audited codebases, only 10 were validated end-to-end as
 attributable on the target side. A signature set built naively from source code would
 mostly encode strings that never reach a victim.
 
@@ -81,7 +82,8 @@ and agent-driven traffic overlap in exactly the dimensions the detector measures
 
 The contributions are:
 
-1. A source-audited corpus of 65 AI pentest frameworks with a per-framework attribution
+1. A source-audited corpus of 65 codebases (64 third-party frameworks plus one in-house
+   implementation) with a per-framework attribution
    matrix (Section 6).
 2. A tiered signature set of 610 rules with a documented derivation procedure, a
    rule-usability screen, and zero hits on two real corpora (Sections 5.5 and 7.1).
@@ -126,7 +128,7 @@ side, including when it looks like nothing distinctive at all.
 ### 3.1 Adversary setting
 
 The adversary is an operator running an AI pentest agent against a protected asset. The
-operator may be malicious. The agent may be one of the 65 frameworks studied here, a
+operator may be malicious. The agent may be one of the frameworks studied here, a
 commercial product, or an in-house variant; the defensive measures must not assume any of
 them.
 
@@ -194,7 +196,7 @@ that no measurement can drift between components.
 ### 5.2 Feature families
 
 Forty-three features are extracted from each actor's request sequence and grouped into ten
-families. The families are designed so that a family failure is diagnosable: each one
+families (the shipped engine exposes 103 named features across 11 families). The families are designed so that a family failure is diagnosable: each one
 isolates a different dimension of agent behaviour.
 
 | Family | Dimension | Representative features |
@@ -213,8 +215,9 @@ Section 7.5 reports the ablation over these families.
 
 ### 5.3 Evidence rules
 
-Fifteen evidence rules score an actor. Twelve are positive, two are negative (E14, E15),
-and one is a structural detector whose weight is zero. Each rule carries a weight w that
+Fourteen evidence rules are implemented: twelve positive (E1-E12), two negative (E14, E15).
+The identifier E13 is retired - it was rejected on real traffic - and E10 is a response-side
+rule that cannot be computed from request data alone. Each rule carries a weight w that
 expresses how unlikely it is that a human produces the observed pattern - it is a
 diagnostic-likelihood ratio expressed as a prior-odds adjustment, not an accuracy claim.
 
@@ -232,7 +235,9 @@ Representative rules:
 | E15 | 0.00 | dictionary-driven enumerator: high 4xx ratio, low 2xx rate, high template count | F13 |
 
 The complete table, with the exact conditions and thresholds, is in
-`docs/METHODOLOGY.md` and in `research/engine/evidence.py`.
+`docs/METHODOLOGY.md` and in `research/engine/evidence.py`. E10 carries a weight of 0.95 but is
+excluded from the fusion algebra because it depends on response-side data that a passive
+collector does not have.
 
 ### 5.4 Fusion and the decision rule
 
@@ -313,7 +318,8 @@ caught because the exported files were counted rather than parsed.
 
 ### 6.1 Corpus
 
-The corpus comprises 65 AI pentest frameworks, selected to span the designs that actually
+The corpus comprises 65 audited codebases - 64 third-party frameworks plus one in-house
+implementation - selected to span the designs that actually
 exist rather than a single architectural family: prompt-driven agents, orchestrated
 tool-calling agents, multi-agent pipelines, and skill-library designs. The audit recorded, for
 each framework, the request-sending code paths and the strings they emit.
@@ -339,7 +345,7 @@ The headline numbers:
 
 | Category | Count |
 |---|---:|
-| Frameworks audited | 65 |
+| Codebases audited (64 third-party frameworks + 1 in-house) | 65 |
 | Frameworks with T1 source-level signatures | 41 framework labels |
 | **Frameworks validated end-to-end as attributable on the target side** | **10** |
 | Frameworks whose target-side traffic is entirely generic tool traffic | 18 (run and inspected) |
@@ -569,12 +575,12 @@ scheme applied to the real-attacker actor set.
 
 ## 11. Conclusion
 
-We audited 65 AI pentest frameworks, extracted 610 traffic signatures of which 272 are
+We audited 65 AI-pentest codebases (64 third-party frameworks plus one in-house implementation), extracted 610 traffic signatures of which 272 are
 strong enough to deploy and match zero rules across 10 million real requests and 142,705
 real attack transactions, and built an actor-level behavioural detector that reaches 86.7%
 segment recall at a 2.72% false-positive rate on real attackers.
 
-The more useful result is the boundary. Only 10 of the 65 frameworks are attributable on the
+The more useful result is the boundary. Only 10 of the 65 audited codebases are attributable on the
 target side; for the rest, the agent's identity does not reach the victim. Where the agent
 delegates to general tooling, passive HTTP inspection cannot separate it from a human, and
 the evidence for that is threefold and consistent. A defender who expects signatures alone
