@@ -210,9 +210,9 @@ def figure9():
     fam_conv = {f: 1.0 - math.prod([1.0 - w for w in v]) for f, v in fam_conv.items()}
     tau = 0.35
 
-    fig = plt.figure(figsize=(15.0, 8.0))
+    fig = plt.figure(figsize=(15.0, 8.8))
     gs = fig.add_gridspec(1, 2, width_ratios=[2.05, 1.0], left=0.165, right=0.975,
-                          top=0.835, bottom=0.115, wspace=0.26)
+                          top=0.795, bottom=0.185, wspace=0.26)
     ax = fig.add_subplot(gs[0, 0])
     y = np.arange(len(items))
     for i, (rid, fam, w, name) in enumerate(items):
@@ -225,7 +225,7 @@ def figure9():
         else:
             ax.barh(i, w, color=c, height=0.68)
         if rid == "E10":
-            ax.text(0.012, i, "0.95 - response-side evidence, not observable in a passive capture",
+            ax.text(0.42, i, "0.95 - response-side probe, not observable passively",
                     va="center", fontsize=9.5, color="#42505E", style="italic")
         elif rid == "E13":
             ax.text(0.012, i, "withdrawn - rejected on real traffic", va="center",
@@ -233,27 +233,27 @@ def figure9():
         elif w > 0:
             ax.text(w + 0.006, i, "%.2f" % w, va="center", fontsize=10, color=INK)
     ax.axvline(tau, color=INK, linestyle="--", linewidth=1.6)
-    ax.text(tau + 0.005, len(items) - 0.2, "decision threshold 0.35", va="top", fontsize=10.5,
-            color=INK, fontweight="bold")
+    ax.set_ylim(-0.7, len(items) + 1.4)
+    ax.text(tau + 0.008, len(items) + 0.55, "decision threshold 0.35", va="center", ha="left",
+            fontsize=10.5, color=INK, fontweight="bold")
     ax.set_yticks(y)
     ax.set_yticklabels(["%s  %s" % (rid, FAMILY_SHORT.get(fam, fam)) for rid, fam, w, n in items],
                        fontsize=10)
     ax.set_xlabel("weight of the evidence rule", fontsize=12)
-    ax.set_xlim(0, 0.44)
-    ax.set_xticks([0, 0.1, 0.2, 0.3, 0.4])
-    ax.set_xticklabels(["0", "0.10", "0.20", "0.30", "0.40"])
+    ax.set_xlim(0, 0.62)
+    ax.set_xticks([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6])
+    ax.set_xticklabels(["0", "0.10", "0.20", "0.30", "0.40", "0.50", "0.60"])
     ax.xaxis.grid(True, color="#E6EAEF", linewidth=0.8)
     ax.set_axisbelow(True)
-    ax.set_title("The 15 evidence-rule identifiers E1-E15, coloured by feature family",
+    ax.set_title("The 15 evidence-rule identifiers E1-E15, coloured by feature family\n"
+                 "(the largest single-rule weight is 0.34, below the 0.35 decision line)",
                  fontsize=12.5, loc="left", pad=10)
-    ax.text(0.0, -0.085, "maximum single-rule weight 0.34 (E1) < 0.35: no single rule can convict "
-             "an actor on its own", transform=ax.transAxes, fontsize=10.5, color=INK,
-             bbox=dict(boxstyle="round,pad=0.45", facecolor="#F4F7FA", edgecolor="#D7DEE6"))
+
     handles = [Patch(facecolor=FAMILY_COLOR[f], label="%s %s" % (f, FAMILY_SHORT[f]))
                for f in sorted(FAMILY_COLOR, key=lambda f: FAMILY_SHORT[f])
                if f in {it[1] for it in items}]
-    ax.legend(handles=handles, ncol=4, fontsize=9.5, loc="upper left",
-              bbox_to_anchor=(0.0, 1.0))
+    fig.legend(handles=handles, loc="lower center", ncol=5, fontsize=9.5,
+               bbox_to_anchor=(0.30, 0.005), handlelength=1.3, columnspacing=1.2)
 
     ax2 = fig.add_subplot(gs[0, 1])
     fams = sorted(fam_conv, key=lambda f: -fam_conv[f])
@@ -264,8 +264,9 @@ def figure9():
         ax2.text(fam_conv[f] + 0.008, yy, "%.4f" % fam_conv[f], va="center", fontsize=10.5,
                  color=INK)
     ax2.axvline(tau, color=INK, linestyle="--", linewidth=1.6)
-    ax2.text(tau + 0.006, len(fams) - 0.2, "threshold 0.35", va="top", fontsize=10.5,
-             color=INK, fontweight="bold")
+    ax2.set_ylim(-0.7, len(fams) + 1.4)
+    ax2.text(tau + 0.006, len(fams) + 0.55, "decision threshold 0.35", va="center", ha="left",
+             fontsize=10.5, color=INK, fontweight="bold")
     ax2.set_yticks(y2)
     ax2.set_yticklabels(["%s  %s" % (f, FAMILY_SHORT[f]) for f in fams], fontsize=10.5)
     ax2.set_xlabel("conviction weight of a whole family", fontsize=12)
@@ -273,15 +274,13 @@ def figure9():
     ax2.set_xticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
     ax2.xaxis.grid(True, color="#E6EAEF", linewidth=0.8)
     ax2.set_axisbelow(True)
-    ax2.set_title("Family conviction capacity", fontsize=12.5, loc="left", pad=10)
-    ax2.text(0.0, -0.085, "F3 alone reaches 0.4086 > 0.35, so the honest statement is:\n"
-             "a single family can convict, three rules are needed (k_min = 2).",
-             transform=ax2.transAxes, fontsize=10.5, color=INK,
-             bbox=dict(boxstyle="round,pad=0.45", facecolor="#F4F7FA", edgecolor="#D7DEE6"))
+    ax2.set_title("Family conviction capacity\n"
+                  "(F3 alone reaches 0.4086 > 0.35: one family can convict)",
+                  fontsize=12.5, loc="left", pad=10)
 
     fig.suptitle("Figure 9 - Evidence-rule weights and the family that carries the decision",
-                 fontsize=15, fontweight="bold", x=0.165, ha="left", y=0.955)
-    fig.text(0.165, 0.905,
+                 fontsize=15, fontweight="bold", x=0.165, ha="left", y=0.975)
+    fig.text(0.165, 0.925,
              "Headline number: the largest single-rule weight is 0.34 (E1), below the 0.35 "
              "decision line, but the three feedback-adaptivity rules of family F3 together reach "
              "0.4086 - above it.",
@@ -303,29 +302,36 @@ def figure10():
     real = d["real_attackers"]
     tau = 0.35
 
-    fig = plt.figure(figsize=(16.0, 7.0))
+    fig = plt.figure(figsize=(16.0, 7.4))
     gs = fig.add_gridspec(1, 3, width_ratios=[1.35, 1.0, 1.0], left=0.055, right=0.985,
-                          top=0.835, bottom=0.135, wspace=0.30)
+                          top=0.795, bottom=0.135, wspace=0.30)
 
     # (a) overlap map
     ax = fig.add_subplot(gs[0, 0])
+    xlim = (0.3, 6.0e3)
+    ylim = (0.5, 2.0e4)
+    rx = np.clip(np.maximum(real["rpm"], 1e-3), xlim[0], xlim[1])
+    ry = np.clip(np.maximum(real["templates"], 1), ylim[0], ylim[1])
+    h = ax.hexbin(rx, ry, gridsize=26, cmap="Blues", mincnt=1, alpha=0.5, linewidths=0.3,
+                  extent=(xlim[0], xlim[1], ylim[0], ylim[1]))
     ax.scatter([a["rpm"] for a in ai], [a["templates"] for a in ai], s=70, color=BLUE,
                edgecolor="white", linewidth=0.8, zorder=4, label="AI agent actors (15)")
     ax.scatter([s["rpm"] for s in sc], [s["templates"] for s in sc], s=90, marker="D",
                color=RED, edgecolor="white", linewidth=0.8, zorder=5,
                label="scanner actors (6)")
-    h = ax.hexbin(np.maximum(real["rpm"], 1e-3), np.maximum(real["templates"], 1),
-                  gridsize=28, cmap="Blues", mincnt=1, alpha=0.55, linewidths=0.3,
-                  bins="log", extent=None)
-    cb = fig.colorbar(h, ax=ax, pad=0.02, fraction=0.045)
+    cb = fig.colorbar(h, ax=ax, pad=0.02, fraction=0.045, shrink=0.85)
     cb.set_label("real attackers (1,582)", fontsize=9.5)
     cb.ax.tick_params(labelsize=8.5)
-    for s in sc:
-        if s["detected"]:
-            ax.annotate(s["actor_id"], (s["rpm"], s["templates"]), fontsize=9,
-                        textcoords="offset points", xytext=(7, 6), color=RED)
+    flag = [s for s in sc if s["detected"]]
+    ax.annotate("%d flagged scanner actors" % len(flag),
+                xy=(float(np.median([s["rpm"] for s in flag])),
+                    float(np.median([s["templates"] for s in flag]))),
+                xytext=(-30, -34), textcoords="offset points", fontsize=9.5, color=RED,
+                arrowprops=dict(arrowstyle="->", color=RED, linewidth=1.2))
     ax.set_xscale("log")
     ax.set_yscale("log")
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
     ax.set_xlabel("request rate (requests per minute)", fontsize=12)
     ax.set_ylabel("distinct endpoint templates", fontsize=12)
     ax.grid(True, color="#EDF1F5", linewidth=0.7)
@@ -376,13 +382,14 @@ def figure10():
     ax3.set_title("Endpoint-breadth distribution", fontsize=12.5, loc="left", pad=10)
 
     fig.suptitle("Figure 10 - AI agent versus scanner behaviour: the two populations overlap",
-                 fontsize=15, fontweight="bold", x=0.055, ha="left", y=0.955)
-    fig.text(0.055, 0.905,
+                 fontsize=15, fontweight="bold", x=0.055, ha="left", y=0.975)
+    fig.text(0.055, 0.925,
              "Headline number: the 4 flagged scanner actors sit inside the request-rate and "
-             "endpoint-breadth range of the AI agent actors - the same traffic shape that makes "
-             "an agent recognisable also makes a content-discovery scanner recognisable, which "
-             "is the source of the 66.67% scanner false-positive rate.",
-             fontsize=10.5, color="#42505E", ha="left")
+             "endpoint-breadth range of the AI agent actors -\n"
+             "the same traffic shape that makes an agent recognisable also makes a "
+             "content-discovery scanner recognisable, which is the source of the\n"
+             "66.67% scanner false-positive rate.",
+             fontsize=10.5, color="#42505E", ha="left", va="top", linespacing=1.5)
     return save(fig, "fig10_ai_agent_vs_scanner_behaviour", 16.0, 7.0)
 
 

@@ -1,0 +1,40 @@
+---
+title: 'Attribution Limits of AI Pentest Agents: An Empirical Study of 65 Frameworks'
+tags:
+  - cybersecurity
+  - ai-agents
+  - penetration-testing
+  - network-traffic
+  - threat-detection
+authors:
+  - name: 'ai-agent-attack-signatures contributors'
+description: |
+  We report an empirical study of 65 AI penetration-testing agent frameworks, combining
+  static source auditing with live traffic collection and scoring against three real-world
+  corpora.
+
+  We extract 610 traffic signatures and tier them by attributability: 272 are
+  framework-exclusive and observable in an HTTP access log (T1), 126 express generic attack
+  semantics (T2), and 212 are generic tooling identifiers or over-broad patterns (T3). The
+  T1 set is validated against 9,905,794 public internet requests from 80,987 source
+  addresses and 142,705 real WAF attack transactions spanning 30 days; it matches zero
+  rules in both corpora, and exactly one source address matches two or more rules.
+
+  Alongside the signatures we build an actor-level behavioural detector whose decision unit
+  is the actor (all requests from one source address within a time window). Forty-three
+  features grouped into ten families feed fifteen evidence rules fused with a noisy-OR
+  model. Across 15 live agent captures covering 12 frameworks the detector reaches 86.7%
+  segment recall and 83.3% framework recall (one-sided 95% lower bound 0.779), retains 90%
+  recall under leave-one-framework-out, and runs at a 2.72% false-positive rate on 1,582
+  real attacker actors (95% CI [2.02%, 3.64%]).
+
+  The central negative result is that attribution and detection are different problems, and
+  neither is solved by signatures alone. An agent that delegates to sqlmap, ffuf or nuclei
+  is indistinguishable from a human running the same tool: on six scanner actors the
+  false-positive rate is 66.67% and raising the decision threshold does not help. We
+  quantify this boundary with three independent pieces of evidence, and show that the only
+  reliable attribution signal for an AI agent is its outbound traffic to an LLM gateway,
+  which requires egress logs rather than passive inspection.
+
+  We release the signatures, the captured datasets and the evaluation code so that every
+  reported measurement can be reproduced and extended.

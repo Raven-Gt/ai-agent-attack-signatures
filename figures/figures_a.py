@@ -352,15 +352,16 @@ def figure4():
     hi = [tr["threshold"][t]["fpr_ci"][1] for t in ths]
     fp = [tr["threshold"][t]["fp"] for t in ths]
 
-    fig = plt.figure(figsize=(13.5, 6.6))
-    gs = fig.add_gridspec(1, 2, width_ratios=[1.25, 1.0], left=0.075, right=0.975,
-                          top=0.835, bottom=0.145, wspace=0.24)
+    fig = plt.figure(figsize=(13.0, 7.2))
+    gs = fig.add_gridspec(1, 2, width_ratios=[1.2, 1.0], left=0.075, right=0.975,
+                          top=0.80, bottom=0.125, wspace=0.24)
     ax = fig.add_subplot(gs[0, 0])
     ax.plot(x, cap_rec, "-o", color=BLUE, label="segment (capture) recall")
     ax.plot(x, fw_rec, "--s", color=TEAL, label="framework recall")
     ax.axvline(0.35, color=INK, linestyle=":", linewidth=1.5)
     ax.annotate("operating point tau = 0.35\n13/15 = 86.7%   10/12 = 83.3%",
-                xy=(0.35, 0.8667), xytext=(0.385, 0.42), fontsize=10.5, color=INK,
+                xy=(0.35, 0.8667), xytext=(0.375, 0.58), fontsize=10.5, color=INK,
+                va="center",
                 arrowprops=dict(arrowstyle="->", color=INK, linewidth=1.3))
     ax.set_xlabel("decision threshold tau", fontsize=12)
     ax.set_ylabel("recall", fontsize=12)
@@ -380,9 +381,11 @@ def figure4():
     ax2.annotate("operating point tau = 0.35\n43 / 1,582 = 2.72%\n95% CI [2.02%, 3.64%]",
                  xy=(0.35, 0.02718), xytext=(0.395, 0.030), fontsize=10.5, color=INK,
                  arrowprops=dict(arrowstyle="->", color=INK, linewidth=1.3))
-    for xi, f, h in zip(x, fpr, hi):
-        if xi in (0.25, 0.30, 0.35, 0.50):
-            ax2.text(xi, h * 1.4, "%d FP" % f, ha="center", fontsize=9, color="#42505E")
+    for xi, f, h, r in zip(x, fp, hi, fpr):
+        if xi in (0.25, 0.60):
+            ax2.annotate("%d FP (%.2f%%)" % (f, 100.0 * r), xy=(xi, r),
+                         xytext=(6, 10), textcoords="offset points", fontsize=9.5,
+                         color="#42505E")
     ax2.set_xlabel("decision threshold tau", fontsize=12)
     ax2.set_ylabel("false-positive rate", fontsize=12)
     ax2.set_yscale("log")
@@ -396,13 +399,12 @@ def figure4():
                   fontsize=12.5, loc="left", pad=8)
 
     fig.suptitle("Figure 4 - Threshold trade-off: detection recall against the false-positive rate",
-                 fontsize=15, fontweight="bold", x=0.075, ha="left", y=0.955)
-    fig.text(0.075, 0.895,
-             "Headline number: at tau = 0.35 the detector keeps 86.7% of the AI agent segments and "
-             "83.3% of the frameworks while false-positiving on 2.72% of 1,582 real attackers; "
-             "raising the threshold to 0.50 cuts the false-positive rate to 0.19% but drops segment "
-             "recall to 73.3%.",
-             fontsize=10.5, color="#42505E", ha="left")
+                 fontsize=15, fontweight="bold", x=0.075, ha="left", y=0.975)
+    fig.text(0.075, 0.925,
+             "Headline number: at tau = 0.35 the detector keeps 86.7% of the AI agent segments and\n"
+             "83.3% of the frameworks while false-positiving on 2.72% of 1,582 real attackers;\n"
+             "tau = 0.50 cuts the false-positive rate to 0.19% but drops segment recall to 73.3%.",
+             fontsize=10.5, color="#42505E", ha="left", va="top", linespacing=1.5)
     return save(fig, "fig04_threshold_tradeoff", 13.5, 6.6)
 
 
@@ -433,9 +435,9 @@ def figure5():
         hi.append(h - r)
         ns.append("%d / %d" % (fp, n))
 
-    fig = plt.figure(figsize=(14.0, 7.0))
-    gs = fig.add_gridspec(1, 2, width_ratios=[2.1, 1.0], left=0.285, right=0.975,
-                          top=0.845, bottom=0.135, wspace=0.30)
+    fig = plt.figure(figsize=(14.0, 7.2))
+    gs = fig.add_gridspec(1, 2, width_ratios=[1.95, 1.15], left=0.285, right=0.975,
+                          top=0.80, bottom=0.125, wspace=0.28)
     ax = fig.add_subplot(gs[0, 0])
     y = np.arange(len(order))[::-1]
     ax.barh(y, [100.0 * r for r in rate],
@@ -448,14 +450,15 @@ def figure5():
                 "%s = %.2f%%" % (nstr, 100.0 * r), va="center", fontsize=10, color=INK)
     ax.set_yticks(y)
     ax.set_yticklabels([labels[k] for k in order], fontsize=10.5)
-    ax.set_xlabel("false-positive rate (share of attacker-class actors flagged)", fontsize=12)
+    ax.set_xlabel("false-positive rate (share of attacker-class actors flagged)\n"
+                  "error bars = 95% Wilson interval", fontsize=12)
     ax.set_xlim(0, 132)
     ax.set_xticks([0, 20, 40, 60, 80, 100])
     ax.set_xticklabels(["0%", "20%", "40%", "60%", "80%", "100%"])
     ax.xaxis.grid(True, color="#E6EAEF", linewidth=0.8)
     ax.set_axisbelow(True)
-    ax.set_title("False-positive rate per negative population (error bars = 95% Wilson CI)",
-                 fontsize=12.5, loc="left", pad=10)
+    ax.set_title("False-positive rate per negative population", fontsize=12.5,
+                 loc="left", pad=10)
 
     ax2 = fig.add_subplot(gs[0, 1])
     scores = [float(r.get("ai_score", 0.0))
@@ -468,26 +471,24 @@ def figure5():
     ax2.scatter(sc_scores, [top * 0.9] * len(sc_scores), s=70, color=RED, zorder=5,
                 label="6 scanner actors", edgecolor="white", linewidth=0.8)
     ax2.axvline(0.35, color=INK, linestyle="--", linewidth=1.5)
-    ax2.text(0.365, top * 0.55, "tau = 0.35", fontsize=10.5, color=INK, fontweight="bold")
+    ax2.text(0.362, top * 0.93, "tau = 0.35", fontsize=10.5, color=INK, fontweight="bold",
+             va="top", bbox=dict(boxstyle="square,pad=0.25", facecolor="white",
+                                 edgecolor="none", alpha=0.9))
     ax2.set_xlabel("AI attribution score", fontsize=12)
     ax2.set_ylabel("actors (log scale)", fontsize=12)
     ax2.set_yscale("log")
-    ax2.legend(fontsize=10, loc="upper right")
+    ax2.set_xlim(0, 0.85)
+    ax2.legend(fontsize=9.5, loc="upper right")
     ax2.set_title("Where the two populations sit", fontsize=12.5, loc="left", pad=10)
-    ax2.text(0.02, 0.62, "43 of 1,582 real attackers reach tau\n"
-                         "4 of 6 scanner actors reach tau\n"
-                         "the scanner scores sit inside the\n"
-                         "real-attacker score range",
-             transform=ax2.transAxes, fontsize=10, color=INK, va="top",
-             bbox=dict(boxstyle="round,pad=0.45", facecolor="#F4F7FA", edgecolor="#D7DEE6"))
 
     fig.suptitle("Figure 5 - False positives: 2.72% on real attackers versus 66.67% on "
-                 "tool-driven scanners", fontsize=15, fontweight="bold", x=0.285, ha="left", y=0.958)
-    fig.text(0.285, 0.908,
+                 "tool-driven scanners", fontsize=15, fontweight="bold", x=0.285, ha="left", y=0.975)
+    fig.text(0.285, 0.925,
              "Headline number: the detector false-positives on 43 of 1,582 real attackers (2.72%, "
-             "95% CI 2.02-3.64%) but on 4 of 6 scanner containers (66.67%) - a 24.5x difference "
-             "between the two attacker populations.",
-             fontsize=10.5, color="#42505E", ha="left")
+             "95% CI 2.02-3.64%) but on 4 of 6 scanner containers (66.67%):\n"
+             "a 24.5x difference between the two attacker populations, because the scanner scores "
+             "sit inside the real-attacker score range.",
+             fontsize=10.5, color="#42505E", ha="left", va="top", linespacing=1.5)
     return save(fig, "fig05_false_positive_breakdown", 14.0, 7.0)
 
 
