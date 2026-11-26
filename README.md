@@ -153,6 +153,19 @@ not directly comparable) value. The published numbers therefore come from
 
 ---
 
+## Deployment
+
+Full instructions per platform - loading the rules, replaying your own traffic before
+production, choosing a threshold, and correlating with egress traffic - are in
+**[`docs/DEPLOY.md`](docs/DEPLOY.md)**.
+
+```bash
+# 1. replay your own traffic before production - expect zero hits on T1
+# 2. deploy only the T1 rules
+# 3. alert on actors (one source address within a time window), never on single requests
+# 4. alert when an actor matches two or more distinct rules
+```
+
 ## Contributing
 
 **Framework authors: please submit your own signatures.**
