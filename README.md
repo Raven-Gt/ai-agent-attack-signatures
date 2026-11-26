@@ -1,5 +1,7 @@
 # ai-agent-attack-signatures
 
+> Paper: `docs/PAPER.md` (LaTeX source in `paper/`)
+
 **Traffic signatures and detection methodology for AI-powered penetration-testing agents.**
 
 An empirical study of 65 audited AI-pentest codebases - 64 third-party frameworks plus one

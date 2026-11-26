@@ -1,0 +1,65 @@
+% =====================================================================
+%  Bibliography for "Attribution Limits of AI Pentest Agents".
+%
+%  Scope rule: only sources that this study actually used are cited.
+%  - the public internet background-traffic corpus (signature validation)
+%  - the ModSecurity / OWASP Core Rule Set deployment that produced the
+%    30-day WAF audit log (signature validation and negative population)
+%  - the artefact repository itself
+%
+%  The 65 audited AI pentest frameworks are deliberately NOT listed here:
+%  we did not read a published paper for each of them, so inventing
+%  bibliographic entries for them would be unsound.  Each framework is
+%  cited by its upstream repository URL in the NOTICE file of the artefact
+%  repository, with per-signature provenance (repository, file path, line
+%  number) in the "framework" and "source" fields of signatures/rules.json.
+% =====================================================================
+
+@misc{aasrepo,
+  author       = {{The ai-agent-attack-signatures contributors}},
+  title        = {{ai-agent-attack-signatures}: traffic signatures and detection
+                  methodology for {AI}-powered penetration-testing agents},
+  year         = {2026},
+  howpublished = {\url{https://github.com/Raven-Gt/ai-agent-attack-signatures}},
+  note         = {Artefact repository for the present paper: the tiered signature
+                  set, the captured datasets and the evaluation code. Every number
+                  reported in the paper is asserted by continuous integration
+                  against the shipped artefacts. MIT licensed, except for the
+                  copyleft-derived subset under signatures/agpl/, which follows the
+                  corresponding upstream licences. The LaTeX sources and the
+                  compiled PDF of the paper are in the paper/ directory of this
+                  repository.}
+}
+
+@misc{burpheartbg,
+  author       = {{burpheart}},
+  title        = {Internet-background-noise},
+  howpublished = {\url{https://huggingface.co/datasets/burpheart/Internet-background-noise}},
+  note         = {Public internet background-traffic corpus, Apache-2.0. Used in this
+                  study as the rule false-positive corpus: 9,905,794 requests from
+                  80,987 distinct source addresses, with full request headers and
+                  request bodies. Snapshot commit a92ffd4; accessed 2026-11-26.}
+}
+
+@misc{owaspcrs,
+  author       = {{OWASP Foundation}},
+  title        = {{OWASP} {ModSecurity} {Core Rule Set} ({CRS})},
+  year         = {2026},
+  howpublished = {\url{https://github.com/coreruleset/coreruleset}},
+  note         = {Generic attack-detection rule set used with OWASP ModSecurity. The
+                  rule set of the audited deployment that produced the 30-day WAF
+                  audit log analysed in this paper is this project; the exact
+                  release of that deployment is not recorded in the released
+                  artefacts. Apache-2.0 licensed.}
+}
+
+@misc{modsecurity,
+  author       = {{OWASP ModSecurity Project}},
+  title        = {ModSecurity},
+  year         = {2026},
+  howpublished = {\url{https://github.com/owasp-modsecurity/ModSecurity}},
+  note         = {The web application firewall engine whose audit log supplied the
+                  WAF attack corpus: 151,011 transactions over 30 consecutive days,
+                  of which 142,705 were used for signature validation. Apache-2.0
+                  licensed.}
+}
